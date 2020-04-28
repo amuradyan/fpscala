@@ -1,0 +1,11 @@
+.project
+fpscala.code-workspace
+.classpath
+
+.metals/
+.bloop/
+target/
+bin/
+null/
+project/
+.settings/
