@@ -50,10 +50,10 @@ object Chapter3 {
     }
 
     // Excercise 3.5
-    def dropWhile[A](as: Lizt[A], f: A => Boolean): Lizt[A] = as match {
+    def dropWhile[A](as: Lizt[A])(f: A => Boolean): Lizt[A] = as match {
       case Cons(head, tail) =>
-        if (f(head)) dropWhile(tail, f)
-        else Cons(head, dropWhile(tail, f))
+        if (f(head)) dropWhile(tail)(f)
+        else Cons(head, dropWhile(tail)(f))
       case Nill => Nill
     }
 
