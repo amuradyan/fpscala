@@ -73,3 +73,76 @@ class Excercise3_4 extends AnyFlatSpec with Matchers {
     Lizt.drop(labc, 2) should be (Lizt('c'))
   }
 }
+
+class Excercise3_5 extends AnyFlatSpec with Matchers {
+  "A `dropWile` over an empty lizt" should "be an empty lizt with a true filter" in {
+    val allwaysTrue = (_: Nothing) => true
+
+    Lizt.dropWhile(Nill, allwaysTrue) should be (Nill)
+  }
+
+  it should "be an empty lizt with a false filter" in {
+    val allwaysFalse = (_: Nothing) => false
+
+    Lizt.dropWhile(Nill, allwaysFalse) should be (Nill)
+  }
+
+  "A `dropWile` over a non-empty lizt" should "be an empty lizt with a true filter" in {
+    val l123 = Lizt(1, 2, 3)
+    val allwaysTrue = (_: Int) => true
+
+    Lizt.dropWhile(l123, allwaysTrue) should be (Nill)
+  }
+
+  it should "be the same lizt with a false filter" in {
+    val l123 = Lizt(1, 2, 3)
+    val allwaysFalse = (_: Int) => false
+
+    Lizt.dropWhile(l123, allwaysFalse) should be (l123)
+  }
+
+  "A `dropWile` over Lizt(1, 2, 3)" should "be an Lizt(2) with an odd filer" in {
+    val isOdd = (n: Int) => (n % 2) != 0
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.dropWhile(l123, isOdd) should be (Lizt(2))
+  }
+
+  it should "be an Lizt(1, 3) with an even filer" in {
+    val isEven = (n: Int) => (n % 2) == 0
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.dropWhile(l123, isEven) should be (Lizt(1, 3))
+  }
+
+  "A `dropWile` over all evens lizt" should "be an empty lizt with an even filer" in {
+    val isEven = (n: Int) => (n % 2) == 0
+    val allEven = Lizt(4, 2, 6)
+
+    Lizt.dropWhile(allEven, isEven) should be (Nill)
+  }
+
+  "A `dropWile` over all odd lizt" should "be an empty lizt with an odd filer" in {
+    val isOdd = (n: Int) => (n % 2) != 0
+    val allOdd = Lizt(1, 5, 3)
+
+    Lizt.dropWhile(allOdd, isOdd) should be (Nill)
+  }
+}
+
+class Excercise3_6 extends AnyFlatSpec with Matchers {
+  "`init` of an empty lizt" should "be an empty lizt" in {
+    Lizt.init(Nill) should be (Nill)
+  }
+
+  "`init` of a single element lizt" should "be an empty lizt" in {
+    Lizt.init(Lizt(1)) should be (Nill)
+  }
+
+  "`init` of Lizt(1, 2, 3)" should "be Lizt(1, 2)" in {
+    val l123 = Lizt(1, 2, 3)
+    val l12 = Lizt(1, 2)
+
+    Lizt.init(l123) should be (l12)
+  }
+}
