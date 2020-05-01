@@ -1,6 +1,6 @@
 package fpinscala
 package chapter2
-package test
+package tests
 
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -50,7 +50,7 @@ class Excercise2_2 extends AnyFlatSpec with Matchers {
   def desc(a: Int, b: Int) = a > b
   def sqr(a: Int, b: Int) = b == (a * a)
 
-  "An ordering check function" should "return true for ampty arrays with any ordering function" in {
+  "An ordering check function" should "return true for empty arrays with any ordering function" in {
     Chapter2.isSorted(emptyArray, asc) should be (true)
     Chapter2.isSorted(emptyArray, desc) should be (true)
   }

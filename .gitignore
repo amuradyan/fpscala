@@ -1,6 +1,7 @@
 .project
 fpscala.code-workspace
 .classpath
+*.pdf
 
 .metals/
 .bloop/
