@@ -146,3 +146,47 @@ class Excercise3_6 extends AnyFlatSpec with Matchers {
     Lizt.init(l123) should be (l12)
   }
 }
+
+class Excercise3_9 extends AnyFlatSpec with Matchers {
+  "Length of an empty lizt" should "be 0" in {
+    Lizt.length(Nill) should be (0)
+  }
+
+  "Length of Lizt(1, 2, 3)" should "be 3" in {
+    val l123 = Lizt(1, 2, 3)
+ 
+    Lizt.length(l123) should be (3)
+  }
+}
+
+class Excercise3_11 extends AnyFlatSpec with Matchers {
+  "Sum with foldLeft" should "be 0 for empty lists" in {
+    Lizt.sumFoldl(Nill) should be (0)
+  }
+
+  it should "be the same as with foldRight" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.sumFoldl(l123) should be (Lizt.sum2(l123))
+  }
+
+  "Product with foldLeft" should "be 1 for empty lists" in {
+    Lizt.productFoldl(Nill) should be (1)
+  }
+
+  it should "be the same as with foldRight" in {
+    val l123d = Lizt(1.0, 2.0, 3.0)
+
+    Lizt.productFoldl(l123d) should be (Lizt.product2(l123d))
+  }
+
+  "Length with foldLeft" should "be 0 for empty lists " in {
+    Lizt.lengthFoldl(Nill) should be (0)
+  }
+
+  it should "be the same as with foldRight" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.lengthFoldl(l123) should be (Lizt.length(l123))
+  }
+}

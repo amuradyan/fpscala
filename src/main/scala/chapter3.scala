@@ -1,5 +1,7 @@
 package fpinscala
 package chapter3
+import fpinscala.chapter3.Chapter3.Nill
+import fpinscala.chapter3.Chapter3.Cons
 
 object Chapter3 {
 
@@ -30,6 +32,15 @@ object Chapter3 {
         case Nill             => a2
       }
     }
+
+    def foldRight[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B = as match {
+      case Cons(head, tail) => f(head, foldRight(tail, z)(f))
+      case Nill             => z
+    }
+
+    def sum2(as: Lizt[Int]) = foldRight(as, 0)((a, b) => a + b)
+
+    def product2(as: Lizt[Double]) = foldRight(as, 1.0)(_ * _)
 
     // Excercise 3.2
     def tail[A](as: Lizt[A]): Lizt[A] = as match {
@@ -63,5 +74,20 @@ object Chapter3 {
       case Cons(head, tail) => Cons(head, init(tail))
       case Nill             => Nill
     }
+
+    // Excercise 3.9
+    def length[A](as: Lizt[A]): Int = foldRight(as, 0)((a, b) => b + 1)
+
+    // Excercise 3.10
+    @annotation.tailrec
+    def foldLeft[A, B](as: Lizt[A], z: B)(f: (B, A) => B): B = as match {
+      case Cons(head, tail) => foldLeft(tail, f(z, head))(f)
+      case Nill             => z
+    }
+
+    // Excercise 3.11
+    def sumFoldl(as: Lizt[Int]) = foldLeft(as, 0)(_ + _)
+    def productFoldl(as: Lizt[Double]) = foldLeft(as, 1.0)(_ * _)
+    def lengthFoldl[A](as: Lizt[A]) = foldLeft(as, 0)((acc, _) => acc + 1)
   }
 }
