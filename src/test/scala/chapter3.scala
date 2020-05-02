@@ -160,7 +160,7 @@ class Excercise3_9 extends AnyFlatSpec with Matchers {
 }
 
 class Excercise3_11 extends AnyFlatSpec with Matchers {
-  "Sum with foldLeft" should "be 0 for empty lists" in {
+  "Sum with foldLeft" should "be 0 for empty lizts" in {
     Lizt.sumFoldl(Nill) should be (0)
   }
 
@@ -170,7 +170,7 @@ class Excercise3_11 extends AnyFlatSpec with Matchers {
     Lizt.sumFoldl(l123) should be (Lizt.sum2(l123))
   }
 
-  "Product with foldLeft" should "be 1 for empty lists" in {
+  "Product with foldLeft" should "be 1 for empty lizts" in {
     Lizt.productFoldl(Nill) should be (1)
   }
 
@@ -180,7 +180,7 @@ class Excercise3_11 extends AnyFlatSpec with Matchers {
     Lizt.productFoldl(l123d) should be (Lizt.product2(l123d))
   }
 
-  "Length with foldLeft" should "be 0 for empty lists " in {
+  "Length with foldLeft" should "be 0 for empty lizts " in {
     Lizt.lengthFoldl(Nill) should be (0)
   }
 
@@ -189,4 +189,65 @@ class Excercise3_11 extends AnyFlatSpec with Matchers {
 
     Lizt.lengthFoldl(l123) should be (Lizt.length(l123))
   }
+}
+
+class Excercise3_12 extends AnyFlatSpec with Matchers {
+  "Reverse of an empty lizt" should "be itself(an empty lizt)" in {
+    Lizt.reverse(Nill) should be (Nill)
+  }
+
+  "Reverse of a symmetric lizt" should "be itself" in {
+    val l121 = Lizt(1, 2, 1)
+
+    Lizt.reverse(l121) should be (l121)
+  }
+
+  "Reverse of Lizt(1, 2, 3)" should "be Lizt(3, 2, 1))" in {
+    val l123 = Lizt(1, 2, 3)
+    val l321 = Lizt(3, 2, 1)
+
+    Lizt.reverse(l123) should be (l321)
+  }
+}
+
+class Excercise3_13 extends AnyFlatSpec with Matchers {
+  "Lizt creation with `classical` foldLeft" should "be equivalent to foldLeftViaFoldRight" in {
+    val l123 = Lizt(1, 2, 3)
+    val l321 = Lizt(3, 2, 1)
+
+    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Cons(h, l)) should be (l321)
+    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Cons(h, l)) should be (Lizt.foldLeftViaFoldRight(l123, Nill: Lizt[Int])((l, h) => Cons(h, l)))
+  }
+
+  "Lizt creation with `classical` foldRight" should "be equivalent to foldRightViaFoldLeft" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.foldRight(l123, Nill: Lizt[Int])(Cons(_, _)) should be (Lizt.foldRightViaFoldLeft(l123, Nill: Lizt[Int])(Cons(_, _)))
+  }
+}
+
+class Excercise3_14 extends AnyFlatSpec with Matchers {
+  "Appending an empty lizt to an empty lizt" should "result in an empty lizt" in {
+    Lizt.append(Nill, Nill) should be (Nill)
+  }
+
+  "Appending an empty lizt to a nempty lizt" should "result in the original non-empty lizt" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.append(l123, Nill) should be (l123)
+  }
+
+  "Appending a non-empty lizt to an empty lizt" should "result in the original non-empty lizt" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.append(Nill, l123) should be (l123)
+  }
+
+  "Appending Lizt(1, 2, 3) to Lizt(4, 5, 6)" should "result in Lizt(1, 2, 3, 4, 5, 6)" in {
+    val l123 = Lizt(1, 2, 3)
+    val l456 = Lizt(4, 5, 6)
+    val l123456 = Lizt(1, 2, 3, 4, 5, 6)
+
+    Lizt.append(l123, l456) should be (l123456)
+  }  
 }

@@ -85,9 +85,24 @@ object Chapter3 {
       case Nill             => z
     }
 
-    // Excercise 3.11
+    // Excercise 3.11 (a)
     def sumFoldl(as: Lizt[Int]) = foldLeft(as, 0)(_ + _)
+    // Excercise 3.11 (b)
     def productFoldl(as: Lizt[Double]) = foldLeft(as, 1.0)(_ * _)
+    // Excercise 3.11 (c)
     def lengthFoldl[A](as: Lizt[A]) = foldLeft(as, 0)((acc, _) => acc + 1)
+
+    // Excercise 3.12
+    def reverse[A](as: Lizt[A]) = foldLeft(as, Nill: Lizt[A])((l, e) => Cons(e, l))
+
+    // Excercise 3.13 (a)
+    def foldLeftViaFoldRight[A, B](as: Lizt[A], z: B)(f: (B, A) => B): B =
+      foldRight(reverse(as), z)((a, b) => f(b, a))
+    // Excercise 3.13 (b.1)
+    def foldRightViaFoldLeft[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B =
+      foldLeft(reverse(as), z)((a, b) => f(b, a))
+
+    // Excercise 3.14
+    def append2[A](as: Lizt[A], bs: Lizt[A]): Lizt[A] = foldRight(bs, as)(Cons(_, _))
   }
 }
