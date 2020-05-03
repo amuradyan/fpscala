@@ -117,5 +117,19 @@ object Chapter3 {
     // Excercise 3.18
     def map[A, B](as: Lizt[A])(f: A => B): Lizt[B] =
       foldRightViaFoldLeft(as, Nill: Lizt[B])((h, acc) => Cons(f(h), acc))
+
+    // Excercise 3.19
+    def filter[A](as: Lizt[A])(f: A => Boolean): Lizt[A] =
+      foldRightViaFoldLeft(as, Nill: Lizt[A])((h, acc) => if (f(h)) Cons(h, acc) else acc)
+
+    // Excercise 3.20
+    def flatMap[A, B](as: Lizt[A])(f: A => Lizt[B]): Lizt[B] =
+      foldRightViaFoldLeft(as, Nill: Lizt[B])((h, acc) => append(f(h), acc))
+
+    def flatMapViaConcatAndMap[A, B](as: Lizt[A])(f: A => Lizt[B]): Lizt[B] = concat(map(as)(f))
+
+    // Excercise 3.21
+    def filterViaFlatMap[A](as: Lizt[A])(f: A => Boolean): Lizt[A] =
+      flatMap(as)(a => if (f(a)) Lizt(a) else Nill)
   }
 }
