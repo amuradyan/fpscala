@@ -444,3 +444,65 @@ class Excercise3_21 extends AnyFlatSpec with Matchers {
     Lizt.filterViaFlatMap(allOdd)(isOdd) should be (allOdd)
   }
 }
+
+class Excercise3_22 extends AnyFlatSpec with Matchers {
+  "`intLiztAdder` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9)" in {
+    val l123 = Lizt(1, 2, 3)
+    val l456 = Lizt(4, 5, 6)
+    val l579 = Lizt(5, 7, 9)
+
+    Lizt.intLiztAdder(l123, l456) should be (l579)
+  }
+
+  "`intLiztAdder` with any or both of the lizts being empty" should "result in empty lizt" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.intLiztAdder(l123, Nill) should be (Nill)
+    Lizt.intLiztAdder(Nill, l123) should be (Nill)
+    Lizt.intLiztAdder(Nill, Nill) should be (Nill)
+  }
+
+  "`intLiztAdder` result" should "be the length of the shorter lizt" in {
+    val l12 = Lizt(1, 2)
+    val l12345 = Lizt(1, 2, 3, 4, 5)
+
+    Lizt.length(Lizt.intLiztAdder(l12, l12345)) should be (Lizt.length(l12))
+  }
+}
+
+class Excercise3_23 extends AnyFlatSpec with Matchers {
+  "`zipWith` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9) with addition as the zipping function" in {
+    val l123 = Lizt(1, 2, 3)
+    val l456 = Lizt(4, 5, 6)
+    val l579 = Lizt(5, 7, 9)
+
+    Lizt.zipWith(l123, l456)(_ + _) should be (l579)
+  }
+
+  "`zipWith` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9) with subtraction as the zipping function" in {
+    val l123 = Lizt(1, 2, 3)
+    val l456 = Lizt(4, 5, 6)
+    val lm3m3m3 = Lizt(-3, -3, -3)
+
+    Lizt.zipWith(l123, l456)(_ - _) should be (lm3m3m3)
+  }
+
+  "`zipWith` with any or both of the lizts being empty" should "result in empty lizt regardles of the zipping function" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.zipWith(l123, Nill)(_ + _) should be (Nill)
+    Lizt.zipWith(Nill, l123)(_ + _) should be (Nill)
+    Lizt.zipWith(Nill: Lizt[Int], Nill: Lizt[Int])(_ + _) should be (Nill)
+    Lizt.zipWith(l123, Nill)(_ - _) should be (Nill)
+    Lizt.zipWith(Nill, l123)(_ - _) should be (Nill)
+    Lizt.zipWith(Nill: Lizt[Int], Nill: Lizt[Int])(_ - _) should be (Nill)
+  }
+
+  "`zipWith` result" should "be the length of the shorter lizt regardles of the zipping function" in {
+    val l12 = Lizt(1, 2)
+    val l12345 = Lizt(1, 2, 3, 4, 5)
+
+    Lizt.length(Lizt.zipWith(l12, l12345)(_ + _)) should be (Lizt.length(l12))
+    Lizt.length(Lizt.zipWith(l12, l12345)(_ - _)) should be (Lizt.length(l12))
+  }
+}

@@ -131,5 +131,19 @@ object Chapter3 {
     // Excercise 3.21
     def filterViaFlatMap[A](as: Lizt[A])(f: A => Boolean): Lizt[A] =
       flatMap(as)(a => if (f(a)) Lizt(a) else Nill)
+
+    // Excercise 3.22
+    def intLiztAdder(as: Lizt[Int], bs: Lizt[Int]): Lizt[Int] = (as, bs) match {
+      case (_, Nill) => Nill
+      case (Nill, _) => Nill
+      case (Cons(ah, at), Cons(bh, bt)) => Cons(ah + bh, intLiztAdder(at, bt))
+    }
+
+    // Excercise 3.23
+    def zipWith[A](as: Lizt[A], bs: Lizt[A])(f: (A, A) => A): Lizt[A] = (as, bs) match {
+      case (_, Nill) => Nill
+      case (Nill, _) => Nill
+      case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f))
+    }
   }
 }
