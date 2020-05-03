@@ -251,3 +251,71 @@ class Excercise3_14 extends AnyFlatSpec with Matchers {
     Lizt.append(l123, l456) should be (l123456)
   }  
 }
+
+class Excercise3_15 extends AnyFlatSpec with Matchers {
+  "Concatenation of a lizt of empty lizts" should "be an empty lizt" in {
+    val loel = Lizt(Nill, Nill, Nill)
+
+    Lizt.concat(loel) should be (Nill)
+  }
+
+  "Concatenation of Lizt(Lizt(1, 2, 3), Lizt(4, 5, 6))" should "be Lizt(1, 2, 3, 4, 5, 6)" in {
+    val l123 = Lizt(1, 2, 3)
+    val l456 = Lizt(4, 5, 6)
+    val lol = Lizt(l123, l456)
+    val l123456 = Lizt(1, 2, 3, 4, 5, 6)
+
+    Lizt.concat(lol) should be (l123456)
+  }
+
+  "Concatenation of lizt of one non-empty lizt and other empty lizts" should "be the one non-empty lizt" in {
+    val l123 = Lizt(1, 2, 3)
+    val lol1 = Lizt(Nill, l123, Nill)
+    val lol2 = Lizt(Nill, Nill, l123)
+    val lol3 = Lizt(l123, Nill, Nill)
+
+    Lizt.concat(lol1) should be (l123)
+    Lizt.concat(lol2) should be (l123)
+    Lizt.concat(lol3) should be (l123)
+  }
+}
+
+class Excercise3_16 extends AnyFlatSpec with Matchers {
+  "`plus1` over an empty lizt" should "be an empty list" in {
+    Lizt.plus1(Nill) should be (Nill)
+  }
+
+  "`plus1` over Lizt(1, 2, 3)" should "be Lizt(2, 3, 4)" in {
+    val l123 = Lizt(1, 2, 3)
+    val l234 = Lizt(2, 3, 4)
+
+    Lizt.plus1(l123) should be (l234)
+  }
+}
+
+class Excercise3_17 extends AnyFlatSpec with Matchers {
+  "`stringifyDoubles` over an empty lizt" should "be an empty lizt" in {
+    Lizt.stringifyDoubles(Nill) should be (Nill)
+  }
+
+  "`stringifyDoubles` over Lizt(1.0, 2.0, 3.0)" should "be Lizt(\"1.0\", \"2.0\", \"3.0\")" in {
+    val l123d = Lizt(1.0, 2.0, 3.0)
+    val l123ds = Lizt("1.0", "2.0", "3.0")
+ 
+    Lizt.stringifyDoubles(l123d) should be (l123ds)
+  }
+}
+
+class Excercise3_18 extends AnyFlatSpec with Matchers {
+  "`map` with adding one over a lizt of integers" should "behave as `plus1`" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.map(l123)(_ + 1) should be (Lizt.plus1(l123))
+  }
+
+  "`map` with stringifying doubles over a lizt of doubles" should "behave as `stringifyDoubles`" in {
+    val l123d = Lizt(1.0, 2.0, 3.0)
+    
+    Lizt.map(l123d)(_.toString) should be (Lizt.stringifyDoubles(l123d))
+  }
+}

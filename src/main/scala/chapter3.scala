@@ -26,11 +26,9 @@ object Chapter3 {
       else Cons(as.head, apply(as.tail: _*))
     }
 
-    def append[A](a1: Lizt[A], a2: Lizt[A]): Lizt[A] = {
-      a1 match {
-        case Cons(head, tail) => Cons(head, append(tail, a2))
-        case Nill             => a2
-      }
+    def append[A](a1: Lizt[A], a2: Lizt[A]): Lizt[A] = a1 match {
+      case Cons(head, tail) => Cons(head, append(tail, a2))
+      case Nill             => a2
     }
 
     def foldRight[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B = as match {
@@ -102,7 +100,22 @@ object Chapter3 {
     def foldRightViaFoldLeft[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B =
       foldLeft(reverse(as), z)((a, b) => f(b, a))
 
-    // Excercise 3.14
+    // Excercise 3.14 ()
     def append2[A](as: Lizt[A], bs: Lizt[A]): Lizt[A] = foldRight(bs, as)(Cons(_, _))
+
+    // Excercise 3.15
+    def concat[A](lol: Lizt[Lizt[A]]): Lizt[A] = foldRightViaFoldLeft(lol, Nill: Lizt[A])(append)
+
+    // Excercise 3.16
+    def plus1(is: Lizt[Int]): Lizt[Int] =
+      foldRightViaFoldLeft(is, Nill: Lizt[Int])((i, acc) => Cons(i + 1, acc))
+
+    // Excercise 3.17
+    def stringifyDoubles(ds: Lizt[Double]): Lizt[String] =
+      foldRightViaFoldLeft(ds, Nill: Lizt[String])((d, acc) => Cons(d.toString, acc))
+
+    // Excercise 3.18
+    def map[A, B](as: Lizt[A])(f: A => B): Lizt[B] =
+      foldRightViaFoldLeft(as, Nill: Lizt[B])((h, acc) => Cons(f(h), acc))
   }
 }
