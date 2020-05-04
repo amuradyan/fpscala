@@ -134,16 +134,26 @@ object Chapter3 {
 
     // Excercise 3.22
     def intLiztAdder(as: Lizt[Int], bs: Lizt[Int]): Lizt[Int] = (as, bs) match {
-      case (_, Nill) => Nill
-      case (Nill, _) => Nill
+      case (_, Nill)                    => Nill
+      case (Nill, _)                    => Nill
       case (Cons(ah, at), Cons(bh, bt)) => Cons(ah + bh, intLiztAdder(at, bt))
     }
 
     // Excercise 3.23
     def zipWith[A](as: Lizt[A], bs: Lizt[A])(f: (A, A) => A): Lizt[A] = (as, bs) match {
-      case (_, Nill) => Nill
-      case (Nill, _) => Nill
+      case (_, Nill)                    => Nill
+      case (Nill, _)                    => Nill
       case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt)(f))
+    }
+
+    // Excercise 3.24
+    def hasSubsequence[A](sup: Lizt[A], sub: Lizt[A]): Boolean = (sup, sub) match {
+      case (Nill, Nill) => true
+      case (_, Nill)    => true
+      case (Nill, _)    => false
+      case (Cons(h1, t1), Cons(h2, t2)) =>
+        if (h2 == h1) hasSubsequence(t1, t2)
+        else hasSubsequence(t1, sub)
     }
   }
 }
