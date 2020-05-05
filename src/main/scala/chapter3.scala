@@ -1,5 +1,6 @@
 package fpinscala
 package chapter3
+
 import fpinscala.chapter3.Chapter3.Nill
 import fpinscala.chapter3.Chapter3.Cons
 
@@ -147,13 +148,21 @@ object Chapter3 {
     }
 
     // Excercise 3.24
-    def hasSubsequence[A](sup: Lizt[A], sub: Lizt[A]): Boolean = (sup, sub) match {
-      case (Nill, Nill) => true
-      case (_, Nill)    => true
-      case (Nill, _)    => false
+    @annotation.tailrec
+    def startsWith[A](sup: Lizt[A], sub: Lizt[A]): Boolean = (sup, sub) match {
+      case (_, Nill) => true
+      case (Nill, _) => false
       case (Cons(h1, t1), Cons(h2, t2)) =>
-        if (h2 == h1) hasSubsequence(t1, t2)
-        else hasSubsequence(t1, sub)
+        if (h1 == h2) startsWith(t1, t2)
+        else false
+    }
+
+    @annotation.tailrec
+    def hasSubsequence[A](sup: Lizt[A], sub: Lizt[A]): Boolean = sup match {
+      case Nill => sub == Nill
+      case Cons(head, tail) =>
+        if (startsWith(sup, sub)) true
+        else hasSubsequence(tail, sub)
     }
   }
 }
