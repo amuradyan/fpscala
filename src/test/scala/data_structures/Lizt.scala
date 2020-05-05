@@ -4,7 +4,7 @@ package tests
 
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
-import Chapter3._
+import lizt._
 
 class Excercise3_2 extends AnyFlatSpec with Matchers {
   "`tail` of a lizt" should "be Nil for an empty lizt" in {
