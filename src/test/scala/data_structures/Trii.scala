@@ -8,33 +8,27 @@ import org.scalatest.flatspec.AnyFlatSpec
 import tri._
 
 class Excercise3_25 extends AnyFlatSpec with Matchers {
-  "Size of a lif" should "be 1" in {
+  "Size of a leef" should "be 1" in {
     val l = Leef(1)
 
     Tri.size(l) should be (1)
   }
 
-  "Size of a (v, v) tri " should "be 2" in {
+  "Size of a (v, v) tri " should "be 3" in {
     val t2 = Brench(Leef(1), Leef(1))
 
-    Tri.size(t2) should be (2)
+    Tri.size(t2) should be (3)
   }
 
-  "Size of an empty tri (i.e. (-, -))" should "be 0" in {
-    val emptyTri = Brench(null, null)
+  "Size of a ((v, (v, v)), v) tri " should "be 7" in {
+    val tl4 = Brench(Brench(Leef(1), Brench(Leef(1), Leef(1))), Leef(1))
 
-    Tri.size(emptyTri) should be (0)
+    Tri.size(tl4) should be (7)
   }
+  "Size of a (v, (v, (v, v))) tri " should "be 4" in {
+    val tr4 = Brench(Leef(1), Brench(Leef(1), Brench(Leef(1), Leef(1))))
 
-  "Size of a ((v, (v, v)), -) tri " should "be 3" in {
-    val tl3 = Brench(Brench(Leef(1), Brench(Leef(1), Leef(1))), null)
-
-    Tri.size(tl3) should be (3)
-  }
-  "Size of a (-, (v, (v, v))) tri " should "be 3" in {
-    val tr3 = Brench(null, Brench(Leef(1), Brench(Leef(1), Leef(1))))
-
-    Tri.size(tr3) should be (3)
+    Tri.size(tr4) should be (7)
   }
 }
 
@@ -51,8 +45,8 @@ class Excercise3_26 extends AnyFlatSpec with Matchers {
     Tri.maximum(t123) should be (3)
   }
 
-  "Maximum of (((1, 2), 3), -)" should "be 3" in {
-    val t123 = Brench(Brench(Brench(Leef(1), Leef(2)), Leef(3)), null)
+  "Maximum of (((1, 2), 3), -1)" should "be 3" in {
+    val t123 = Brench(Brench(Brench(Leef(1), Leef(2)), Leef(3)), Leef(-1))
 
     Tri.maximum(t123) should be (3)
   }
@@ -61,5 +55,54 @@ class Excercise3_26 extends AnyFlatSpec with Matchers {
     val t1234 = Brench(Brench(Leef(1), Leef(2)), Brench(Leef(3), Leef(4)))
 
     Tri.maximum(t1234) should be (4)
+  }
+}
+
+class Excercise3_27 extends AnyFlatSpec with Matchers {
+  "Depth of (((1, (2, 3)), (4, 5)))" should "be 4" in {
+    val t12345 = Brench(Brench(Leef(1), Brench(Leef(2), Leef(3))), Brench(Leef(4), Leef(5)))
+    
+    Tri.depth(t12345) should be (4)
+  }
+
+  "Depth of a leef" should "be 1" in {
+    Tri.depth(Leef(1)) should be (1)
+  }
+
+  "Depth of a brench with just leefs" should "be 2" in {
+    val tb = Brench(Leef(1), Leef(1))
+    Tri.depth(tb) should be (2)
+  }
+}
+
+class Excercise3_28 extends AnyFlatSpec with Matchers {
+  "Size of a tri after `map`" should "be the same" in {
+    val t123 = Brench(Brench(Leef(1), Leef(2)), Leef(3))
+
+    Tri.size(Tri.map(t123)(l => l * l)) should be (Tri.size(t123))
+  }
+
+  "Depth of a tri after map" should "be the same" in {
+    val t123 = Brench(Brench(Leef(1), Leef(2)), Leef(3))
+
+    Tri.depth(Tri.map(t123)(l => l * l)) should be (Tri.depth(t123))
+  }
+
+  "Maximum of a tri after squaring" should "be the square of maximum of the tri before squaring" in {
+    val t123 = Brench(Brench(Leef(1), Leef(2)), Leef(3))
+    val maxt123 = Tri.maximum(t123)
+
+    Tri.maximum(Tri.map(t123)(l => l * l)) should be (maxt123 * maxt123)
+  }
+
+  "Squaring (1)" should "be (1)" in {
+    Tri.map(Leef(1))(l => l * l) should be (Leef(1))
+  }
+
+  "Squaring ((1, 2), 3)" should "be ((1, 4), (9))" in {
+    val t123 = Brench(Brench(Leef(1), Leef(2)), Leef(3))
+    val t149 = Brench(Brench(Leef(1), Leef(4)), Leef(9))
+
+    Tri.map(t123)(l => l * l) should be (t149)
   }
 }
