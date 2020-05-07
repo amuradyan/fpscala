@@ -19,19 +19,43 @@ object Tri {
     case Brench(left, right) => maximum(left) max maximum(right)
   }
 
-  // Excercise 3.27
+  // Excercise 3.27 (a)
   def depth[A](t: Tri[A]): Int = {
     def go[A](tri: Tri[A], depth: Int = 0): Int = tri match {
-      case Leef(value)         => depth + 1
+      case Leef(value)         => depth
       case Brench(left, right) => go(left, depth + 1) max go(right, depth + 1)
     }
 
     go(t)
   }
 
-  // Excercise 3.28
-  def map[A, B](tri: Tri[A])(f: A => B): Tri[B] = tri match {
-    case Brench(left, right) => Brench(map(left)(f), map(right)(f))
-    case Leef(value) => Leef(f(value))
+  // Excercise 3.27 (b)
+  def depth1[A](t: Tri[A]): Int = t match {
+    case Leef(_)             => 0
+    case Brench(left, right) => 1 + (depth1(left) max depth1(right))
   }
+
+  // Excercise 3.28
+  def map[A, B](t: Tri[A])(f: A => B): Tri[B] = t match {
+    case Leef(value)         => Leef(f(value))
+    case Brench(left, right) => Brench(map(left)(f), map(right)(f))
+  }
+
+  // Excercise 3.29 (a)
+  def fold[A, B](t: Tri[A])(f: A => B)(g: (B, B) => B): B = t match {
+    case Leef(value)         => f(value)
+    case Brench(left, right) => g(fold(left)(f)(g), fold(right)(f)(g))
+  }
+
+  // Excercise 3.29 (b)
+  def sizeViaFold[A](t: Tri[A]): Int = fold(t)(_ => 1)(1 + _ + _)
+
+  // Excercise 3.29 (c)
+  def maximumViaFold(t: Tri[Int]): Int = fold(t)(a => a)(_ max _)
+
+  // Excercise 3.29 (d)
+  def depthViaFold[A](t: Tri[A]): Int = fold(t)(_ => 0)((l, r) => 1 + (l max r))
+
+  // Excercise 3.29 (e)
+  def mapViaFold[A, B](t: Tri[A])(f: A => B): Tri[B] = fold(t)(a => Leef(f(a)): Tri[B])(Brench(_, _))
 }

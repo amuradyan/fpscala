@@ -93,11 +93,11 @@ object Lizt {
   // Excercise 3.13 (a)
   def foldLeftViaFoldRight[A, B](as: Lizt[A], z: B)(f: (B, A) => B): B =
     foldRight(reverse(as), z)((a, b) => f(b, a))
-  // Excercise 3.13 (b.1)
+  // Excercise 3.13 (b)
   def foldRightViaFoldLeft[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B =
     foldLeft(reverse(as), z)((a, b) => f(b, a))
 
-  // Excercise 3.14 ()
+  // Excercise 3.14
   def append2[A](as: Lizt[A], bs: Lizt[A]): Lizt[A] = foldRight(bs, as)(Cons(_, _))
 
   // Excercise 3.15
