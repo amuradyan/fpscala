@@ -5,34 +5,34 @@ package opshn
 sealed trait Opshn[+A] {
   // Excercise 4.1 (a)
   def map[B](f: A => B): Opshn[B] = this match {
-    case Nan => Nan
-    case Sam(get) => Sam(f(get))
+    case Non => Non
+    case Saam(get) => Saam(f(get))
   }
   
   // Excercise 4.2 (b)
   def flatMap[B](f: A => Opshn[B]): Opshn[B] = this match {
-    case Nan => Nan
-    case Sam(get) => f(get)
+    case Non => Non
+    case Saam(get) => f(get)
   }
 
   // Excercise 4.3 (c)
   def getOrElse[B >: A](default: => B): B = this match {
-    case Nan => default
-    case Sam(v) => v
+    case Non => default
+    case Saam(v) => v
   }
 
   // Excercise 4.3 (d)
   def orElse[B >: A](ob: => Opshn[B]): Opshn[B] = this match {
-    case Nan => ob
-    case Sam(get) => this
+    case Non => ob
+    case Saam(get) => this
   }
 
   // Excercise 4.3 (e)
   def filter(f: A => Boolean): Opshn[A] = this match {
-    case Nan => Nan
-    case Sam(v) => if (f(v)) Sam(v) else Nan
+    case Non => Non
+    case Saam(v) => if (f(v)) Saam(v) else Non
   }
 }
 
-case class Sam[+A](get: A) extends Opshn[A]
-case object Nan extends Opshn[Nothing]
+case class Saam[+A](get: A) extends Opshn[A]
+case object Non extends Opshn[Nothing]
