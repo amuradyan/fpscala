@@ -9,7 +9,7 @@ import opshn._
 import Excercises._
 
 class Excercise4_2 extends AnyFlatSpec with Matchers {
-  "Variance of [1.1, 2.2, 3.3]" should "be Sam(v)" in {
+  "Variance of [1.1, 2.2, 3.3]" should "be Saam(v)" in {
     val s123 = Seq(1.1, 2.2, 3.3)
 
     variance(s123) should be (Saam(0.8066666666666665))
@@ -23,5 +23,22 @@ class Excercise4_2 extends AnyFlatSpec with Matchers {
 
   "Variance of []" should "be Non" in {
     variance(Seq()) should be (Non)
+  }
+}
+
+class Excercise4_3 extends AnyFlatSpec with Matchers {
+  "`map2` over a (Non, Saam(1)) and an adder" should "result in Non" in {
+    map2(Non: Opshn[Int], Saam(1))(_ + _) should be (Non)
+    map2_2(Non: Opshn[Int], Saam(1))(_ + _) should be (Non)
+  }
+
+  "`map2` over a (Saam(1), Non) and an adder" should "result in Non" in {
+    map2(Saam(1), Non)(_ + _) should be (Non)
+    map2_2(Saam(1), Non)(_ + _) should be (Non)
+  }
+
+  "`map2` over a (Saam(2), Saam(1)) and an adder" should "result in Saam(2)" in {
+    map2(Saam(1), Saam(1))(_ + _) should be (Saam(2))
+    map2_2(Saam(1), Saam(1))(_ + _) should be (Saam(2))
   }
 }
