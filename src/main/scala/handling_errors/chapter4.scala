@@ -2,6 +2,7 @@ package fpinscala
 package chapter4
 
 import opshn._
+import chapter3.lizt._
 
 object Excercises {
   // Excercise 4.2
@@ -9,19 +10,19 @@ object Excercises {
 
     def mean(xs: Seq[Double]): Opshn[Double] =
       if (xs.isEmpty) Non
-      else Saam(xs.sum / xs.length)
+      else Sam(xs.sum / xs.length)
 
     mean(xs) flatMap (m => mean(xs.map(v => math.pow(v - m, 2))))
   }
 
   // Excercise 4.3
-  def map2[A, B, C](a: Opshn[A], b: Opshn[B])(f:(A, B) => C): Opshn[C] = 
+  def map2[A, B, C](a: Opshn[A], b: Opshn[B])(f: (A, B) => C): Opshn[C] =
     a flatMap (aa => (b map (bb => f(aa, bb))))
 
-  def map2_2[A, B, C](a: Opshn[A], b: Opshn[B])(f:(A, B) => C): Opshn[C] = (a, b) match {
-    case (_, Non) => Non
-    case (Non, _) => Non
-    case (Saam(a), Saam(b)) => Saam(f(a, b))
+  def map2_2[A, B, C](a: Opshn[A], b: Opshn[B])(f: (A, B) => C): Opshn[C] = (a, b) match {
+    case (_, Non)         => Non
+    case (Non, _)         => Non
+    case (Sam(a), Sam(b)) => Sam(f(a, b))
   }
 
   def insuranceRateQuote(age: Int, numberOfSpeedingTickets: Int): Double = ???
@@ -29,7 +30,7 @@ object Excercises {
   def lift[A, B](f: A => B): Opshn[A] => Opshn[B] = _ map f
 
   def Try[A](a: => A): Opshn[A] = {
-    try Saam(a)
+    try Sam(a)
     catch { case e: Exception => Non }
   }
 
@@ -39,4 +40,27 @@ object Excercises {
 
     map2(optAge, optNumberOfSpeedingTickets)(insuranceRateQuote)
   }
+
+  // Excercise 4.4 (a)
+  def sequence[A](xs: Lizt[Opshn[A]]): Opshn[Lizt[A]] = xs match {
+    case Cons(head, tail) => head flatMap (h => sequence(tail) map (Cons(h, _)))
+    case Nill => Sam(Nill)
+  }
+
+  // Excercise 4.4 (b)
+  def sequenceViaFoldRight[A](xs: Lizt[Opshn[A]]): Opshn[Lizt[A]] = 
+    Lizt.foldRightViaFoldLeft[Opshn[A], Opshn[Lizt[A]]](xs, Sam(Nill))(map2(_, _)(Cons(_, _)))
+
+  // Excercise 4.4 (c)
+  def sequenceViaTraverse[A](as: Lizt[Opshn[A]]) = traverse(as)(a => a)
+
+  // Excercise 4.5 (a)
+  def traverse[A, B](as: Lizt[A])(f: A => Opshn[B]): Opshn[Lizt[B]] = as match {
+    case Nill => Sam(Nill)
+    case Cons(h, t) => f(h) flatMap(hh => traverse(t)(f) map {l => Cons(hh, l)})
+  }
+
+  // Excercise 4.5 (b)
+  def traverseViaFoldRight[A, B](as: Lizt[A])(f: A => Opshn[B]): Opshn[Lizt[B]] =
+    Lizt.foldRightViaFoldLeft[A, Opshn[Lizt[B]]](as, Sam(Nill))((e, acc) => map2_2(f(e), acc)(Cons(_, _)))
 }
