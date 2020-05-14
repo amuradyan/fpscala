@@ -2,14 +2,12 @@ package fpinscala
 package chapter4
 package tests
 
-
-
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import opshn._
+import opshn.Opshn._
 import fpinscala.chapter3.lizt._
 import scala.util.Random
-import Excercises._
 
 class Excercise4_1 extends AnyFlatSpec with Matchers {
     def invert(a: Int): Opshn[Double] = a match {

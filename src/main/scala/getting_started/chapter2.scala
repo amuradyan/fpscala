@@ -1,5 +1,5 @@
-package fpinscala
-package chapter2
+  package fpinscala
+  package chapter2
 
 object Chapter2 {
 

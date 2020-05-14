@@ -39,7 +39,7 @@ sealed trait Opshn[+A] {
 case class Sam[+A](get: A) extends Opshn[A]
 case object Non extends Opshn[Nothing]
 
-object Excercises {
+object Opshn {
   // Excercise 4.2
   def variance(xs: Seq[Double]): Opshn[Double] = {
 
