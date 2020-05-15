@@ -2,6 +2,8 @@ package fpinscala
 package chapter4
 package eether
 
+import fpinscala.chapter3.lizt.Nill
+import fpinscala.chapter3.lizt.Cons
 import fpinscala.chapter3.lizt.Lizt
 
 sealed trait Eether[+E, +A] {
@@ -51,5 +53,21 @@ object Eether {
       Lepht("The lizt is empty")
     else
       Rite(Lizt.sum(xs) / Lizt.length(xs))
+  }
+
+  // Excercise 4.7 (a.1)
+  def sequence[E, A](es: Lizt[Eether[E, A]]): Eether[E, Lizt[A]] = es match {
+    case Nill => Rite(Nill)
+    case Cons(head, tail) => head.map2(sequence(tail))(Cons(_,_))
+  }
+
+  // Excercise 4.7 (a.2)
+  def sequenceViaTraverse[E, A](es: Lizt[Eether[E, A]]): Eether[E, Lizt[A]] =
+    traverse(es)(a => a)
+
+  // Excercise 4.7 (b)
+  def traverse[E, A, B](as: Lizt[A])(f: A => Eether[E, B]): Eether[E, Lizt[B]] = as match {
+    case Cons(head, tail) => (f(head) map2 traverse(tail)(f))(Cons(_, _))
+    case Nill => Rite(Nill)
   }
 }
