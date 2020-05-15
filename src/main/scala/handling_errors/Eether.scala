@@ -58,7 +58,7 @@ object Eether {
   // Excercise 4.7 (a.1)
   def sequence[E, A](es: Lizt[Eether[E, A]]): Eether[E, Lizt[A]] = es match {
     case Nill => Rite(Nill)
-    case Cons(head, tail) => head.map2(sequence(tail))(Cons(_,_))
+    case Cons(head, tail) => (head map2 sequence(tail))(Cons(_,_))
   }
 
   // Excercise 4.7 (a.2)
