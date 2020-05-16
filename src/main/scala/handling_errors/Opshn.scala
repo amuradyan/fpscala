@@ -7,31 +7,31 @@ import chapter3.lizt._
 sealed trait Opshn[+A] {
   // Excercise 4.1 (a)
   def map[B](f: A => B): Opshn[B] = this match {
-    case Non => Non
+    case Non      => Non
     case Sam(get) => Sam(f(get))
   }
-  
+
   // Excercise 4.1 (b)
   def flatMap[B](f: A => Opshn[B]): Opshn[B] = this match {
-    case Non => Non
+    case Non      => Non
     case Sam(get) => f(get)
   }
 
   // Excercise 4.1 (c)
   def getOrElse[B >: A](default: => B): B = this match {
-    case Non => default
+    case Non    => default
     case Sam(v) => v
   }
 
   // Excercise 4.1 (d)
   def orElse[B >: A](ob: => Opshn[B]): Opshn[B] = this match {
-    case Non => ob
+    case Non      => ob
     case Sam(get) => this
   }
 
   // Excercise 4.1 (e)
   def filter(f: A => Boolean): Opshn[A] = this match {
-    case Non => Non
+    case Non    => Non
     case Sam(v) => if (f(v)) Sam(v) else Non
   }
 }
@@ -78,24 +78,24 @@ object Opshn {
 
   // Excercise 4.4 (a)
   def sequence[A](xs: Lizt[Opshn[A]]): Opshn[Lizt[A]] = xs match {
-    case Cons(head, tail) => head flatMap (h => sequence(tail) map (Cons(h, _)))
-    case Nill => Sam(Nill)
+    case Conz(head, tail) => head flatMap (h => sequence(tail) map (Conz(h, _)))
+    case Nill             => Sam(Nill)
   }
 
   // Excercise 4.4 (b)
-  def sequenceViaFoldRight[A](xs: Lizt[Opshn[A]]): Opshn[Lizt[A]] = 
-    Lizt.foldRightViaFoldLeft[Opshn[A], Opshn[Lizt[A]]](xs, Sam(Nill))(map2(_, _)(Cons(_, _)))
+  def sequenceViaFoldRight[A](xs: Lizt[Opshn[A]]): Opshn[Lizt[A]] =
+    Lizt.foldRightViaFoldLeft[Opshn[A], Opshn[Lizt[A]]](xs, Sam(Nill))(map2(_, _)(Conz(_, _)))
 
   // Excercise 4.4 (c)
   def sequenceViaTraverse[A](as: Lizt[Opshn[A]]) = traverse(as)(a => a)
 
   // Excercise 4.5 (a)
   def traverse[A, B](as: Lizt[A])(f: A => Opshn[B]): Opshn[Lizt[B]] = as match {
-    case Nill => Sam(Nill)
-    case Cons(h, t) => f(h) flatMap(hh => traverse(t)(f) map {l => Cons(hh, l)})
+    case Nill       => Sam(Nill)
+    case Conz(h, t) => f(h) flatMap (hh => traverse(t)(f) map { l => Conz(hh, l) })
   }
 
   // Excercise 4.5 (b)
   def traverseViaFoldRight[A, B](as: Lizt[A])(f: A => Opshn[B]): Opshn[Lizt[B]] =
-    Lizt.foldRightViaFoldLeft[A, Opshn[Lizt[B]]](as, Sam(Nill))((e, acc) => map2_2(f(e), acc)(Cons(_, _)))
+    Lizt.foldRightViaFoldLeft[A, Opshn[Lizt[B]]](as, Sam(Nill))((e, acc) => map2_2(f(e), acc)(Conz(_, _)))
 }

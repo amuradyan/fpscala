@@ -1,5 +1,5 @@
-  package fpinscala
-  package chapter2
+package fpinscala
+package chapter2
 
 object Chapter2 {
 
@@ -13,7 +13,7 @@ object Chapter2 {
       else loop(b, a + b, step - 1)
     }
 
-    if(n <= 0) 0
+    if (n <= 0) 0
     else loop(0, 1, n)
   }
 
@@ -22,7 +22,7 @@ object Chapter2 {
     @annotation.tailrec
     def loop(idx: Int): Boolean = {
       if ((idx == as.length - 2)) ord(as(idx), as(idx + 1))
-      else if (ord(as(idx), as(idx + 1))) loop(idx + 1) 
+      else if (ord(as(idx), as(idx + 1))) loop(idx + 1)
       else false
     }
 
@@ -32,7 +32,7 @@ object Chapter2 {
 
   // Excercise 2.3
   def curry[A, B, C](f: (A, B) => C): A => B => C = a => partial(a, f)
-  
+
   // Excercise 2.4
   def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a, b) => f(a)(b)
 

@@ -3,7 +3,7 @@ package chapter4
 package eether
 
 import fpinscala.chapter3.lizt.Nill
-import fpinscala.chapter3.lizt.Cons
+import fpinscala.chapter3.lizt.Conz
 import fpinscala.chapter3.lizt.Lizt
 
 sealed trait Eether[+E, +A] {
@@ -57,8 +57,8 @@ object Eether {
 
   // Excercise 4.7 (a.1)
   def sequence[E, A](es: Lizt[Eether[E, A]]): Eether[E, Lizt[A]] = es match {
-    case Nill => Rite(Nill)
-    case Cons(head, tail) => (head map2 sequence(tail))(Cons(_,_))
+    case Nill             => Rite(Nill)
+    case Conz(head, tail) => (head map2 sequence(tail))(Conz(_, _))
   }
 
   // Excercise 4.7 (a.2)
@@ -67,7 +67,7 @@ object Eether {
 
   // Excercise 4.7 (b)
   def traverse[E, A, B](as: Lizt[A])(f: A => Eether[E, B]): Eether[E, Lizt[B]] = as match {
-    case Cons(head, tail) => (f(head) map2 traverse(tail)(f))(Cons(_, _))
-    case Nill => Rite(Nill)
+    case Conz(head, tail) => (f(head) map2 traverse(tail)(f))(Conz(_, _))
+    case Nill             => Rite(Nill)
   }
 }

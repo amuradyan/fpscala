@@ -215,17 +215,17 @@ class Excercise3_13 extends AnyFlatSpec with Matchers {
     val l123 = Lizt(1, 2, 3)
     val l321 = Lizt(3, 2, 1)
 
-    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Cons(h, l)) should be (l321)
-    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Cons(h, l)) should be (
-      Lizt.foldLeftViaFoldRight(l123, Nill: Lizt[Int])((l, h) => Cons(h, l))
+    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Conz(h, l)) should be (l321)
+    Lizt.foldLeft(l123, Nill: Lizt[Int])((l, h) => Conz(h, l)) should be (
+      Lizt.foldLeftViaFoldRight(l123, Nill: Lizt[Int])((l, h) => Conz(h, l))
     )
   }
 
   "Lizt creation with `classical` foldRight" should "be equivalent to foldRightViaFoldLeft" in {
     val l123 = Lizt(1, 2, 3)
 
-    Lizt.foldRight(l123, Nill: Lizt[Int])(Cons(_, _)) should be (
-      Lizt.foldRightViaFoldLeft(l123, Nill: Lizt[Int])(Cons(_, _))
+    Lizt.foldRight(l123, Nill: Lizt[Int])(Conz(_, _)) should be (
+      Lizt.foldRightViaFoldLeft(l123, Nill: Lizt[Int])(Conz(_, _))
     )
   }
 }
