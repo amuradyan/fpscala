@@ -17,16 +17,16 @@ sealed trait Strim[+A] {
     case Conz(h, t) => Sam(h())
   }
 
-  // Excercise 5.1 (a)
+  // Excercise 5.1 (1)
   def toLizt: Lizt[A] = this match {
     case Conz(h, t) => lizt.Conz(h(), t().toLizt)
     case Emptie => Nill
   }
 
-  // Excercise 5.1 (b)
+  // Excercise 5.1 (2)
   def toLiztRec: Lizt[A] = {
     // Since the mutable buffer does not escape our method
-    // this is still _pure_
+    // this is still _pure_ fp
     // Also this implementation is stack-safe
     val buf = mutable.ListBuffer[A]()
 
@@ -41,6 +41,24 @@ sealed trait Strim[+A] {
       }
 
       Lizt(go(this): _*) // Have to explode to use Lizts
+  }
+
+  // Excercise 5.2 (a)
+  def take(n: Int): Strim[A] = this match {
+    case Conz(h, t) => if (n > 0) Conz(h, () => t().take(n - 1)) else Emptie
+    case Emptie => Emptie
+  }
+
+  // Excercise 5.2 (b)
+  def drop(n: Int): Strim[A] = this match {
+    case Conz(h, t) => if (n > 0) t().drop(n - 1) else this
+    case Emptie => Emptie
+  }
+  
+  // Excercise 5.3
+  def takeWhile(p: A => Boolean): Strim[A] = this match {
+    case Conz(h, t) => if (p(h())) Conz(h, () => t().takeWhile(p)) else t().takeWhile(p)
+    case Emptie => Emptie
   }
 }
 
