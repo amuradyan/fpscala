@@ -13,14 +13,27 @@ import fpinscala.chapter4.opshn.Opshn
 
 sealed trait Strim[+A] {
   def headOpshn: Opshn[A] = this match {
-    case Emptie => Non
     case Conz(h, t) => Sam(h())
+    case Emptie     => Non
   }
+
+  def exists(p: A => Boolean): Boolean = this match {
+    case Conz(h, t) => p(h()) || t().exists(p)
+    case Emptie     => false
+  }
+
+  def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+    case Conz(h, t) => f(h(), t().foldRight(z)(f))
+    case Emptie     => z
+  }
+
+  def existsViaFoldRight(p: A => Boolean): Boolean =
+    foldRight(false)(p(_) || _)
 
   // Excercise 5.1 (1)
   def toLizt: Lizt[A] = this match {
     case Conz(h, t) => lizt.Conz(h(), t().toLizt)
-    case Emptie => Nill
+    case Emptie     => Nill
   }
 
   // Excercise 5.1 (2)
@@ -40,26 +53,36 @@ sealed trait Strim[+A] {
         case Emptie => buf.toList
       }
 
-      Lizt(go(this): _*) // Have to explode to use Lizts
+    Lizt(go(this): _*) // Have to explode to use Lizts
   }
 
   // Excercise 5.2 (a)
   def take(n: Int): Strim[A] = this match {
     case Conz(h, t) => if (n > 0) Conz(h, () => t().take(n - 1)) else Emptie
-    case Emptie => Emptie
+    case Emptie     => Emptie
   }
 
   // Excercise 5.2 (b)
   def drop(n: Int): Strim[A] = this match {
     case Conz(h, t) => if (n > 0) t().drop(n - 1) else this
-    case Emptie => Emptie
+    case Emptie     => Emptie
   }
-  
+
   // Excercise 5.3
   def takeWhile(p: A => Boolean): Strim[A] = this match {
     case Conz(h, t) => if (p(h())) Conz(h, () => t().takeWhile(p)) else t().takeWhile(p)
-    case Emptie => Emptie
+    case Emptie     => Emptie
   }
+
+  // Excercise 5.4
+  def forAll(p: A => Boolean): Boolean = foldRight(true)(p(_) && _)
+
+  // Excercise 5.5
+  def takeWhileViaFoldRight(p: A => Boolean): Strim[A] =
+    foldRight(Emptie: Strim[A])((h, acc) =>
+      if (p(h)) Conz(() => h, () => acc)
+      else acc
+    )
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
