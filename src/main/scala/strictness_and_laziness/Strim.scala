@@ -87,6 +87,25 @@ sealed trait Strim[+A] {
   // Excercise 5.6
   def headOpshnViaFoldRight: Opshn[A] = 
     foldRight(Non: Opshn[A])((c, _) => Sam(c))
+
+  // Excercise 5.7 (a)
+  def map[B](f: A => B): Strim[B] =
+    foldRight(Emptie: Strim[B])((c, r) => Conz(() => f(c), () => r))
+
+  // Excercise 5.7 (b)
+  def flatMap[B](f: A => Strim[B]): Strim[B] =
+    foldRight(Emptie: Strim[B])(f(_) append _)
+
+  // Excercise 5.7 (c)
+  def filter(f: A => Boolean): Strim[A] =
+    foldRight(Emptie: Strim[A])((c, r) => 
+      if (f(c)) Conz(() => c, () => r)
+      else r
+    )
+
+  // Excercise 5.7 (d)
+  def append[B >: A](bs: => Strim[B]): Strim[B] =
+    foldRight(bs)((a, b) => Conz(() => a, () => b))
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]

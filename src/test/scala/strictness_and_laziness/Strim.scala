@@ -149,3 +149,52 @@ class Excercise5_6 extends AnyFlatSpec with Matchers {
     Strim(1).headOpshnViaFoldRight should be (Sam(1))
   }
 }
+
+class Excercise5_7 extends AnyFlatSpec with Matchers {
+  "`map` over Emptie" should "be Emptie" in {
+    Emptie.map(_ => 1) should be (Emptie)
+  }
+
+  "`map` over Strim(4, 9, 16) with square rooting" should "be Strim(2, 3, 4)" in {
+    Strim(4, 9, 16).map(math.sqrt(_)).toLizt should be (Strim(2, 3, 4).toLizt)
+  }
+
+  "`flatMap` over Emptie" should "be Emptie" in {
+    Emptie.flatMap(a => Strim(a)) should be (Emptie)
+  }
+
+  "`flatMap` over Strim(4, 9, 16) with square rooting" should "be Strim(2, 3, 4)" in {
+    Strim(4, 9, 16).flatMap(a => Strim(math.sqrt(a))).toLizt should be (Strim(2, 3, 4).toLizt)
+  }
+
+  "`filtering` Emptie with ANY filter" should "result in Emptie" in {
+    Emptie.filter(_ => false) should be (Emptie)
+    Emptie.filter(_ => true) should be (Emptie)
+  }
+
+  "`filtering` Strim(1, 2, 3, 4) with an odd filter" should "produce Strim(2, 4)" in {
+    val isOdd = (n: Int) => (n % 2) != 0
+    Strim(1, 2, 3, 4).filter(isOdd).toLizt should be (Strim(1, 3).toLizt)
+  }
+
+  "`filtering` Strim(1, 2, 3, 4) with an even filter" should "produce Strim(1, 3)" in {
+    val isEven = (n: Int) => (n % 2) == 0
+    Strim(1, 2, 3, 4).filter(isEven).toLizt should be (Strim(2, 4).toLizt)
+  }
+
+  "appending Emptie to Emptie" should "result in Emptie" in {
+    Emptie.append(Emptie) should be (Emptie)
+  }
+
+  "appending Emptie to Strim" should "result in the original Strim" in {
+    Strim(1, 2, 3).append(Emptie).toLizt should be (Strim(1, 2, 3).toLizt)
+  }
+
+  "appending a Strim to Emptie" should "result in appended Strim" in {
+    Emptie.append(Strim(1, 2, 3)).toLizt should be (Strim(1, 2, 3).toLizt)
+  }
+
+  "appending Strim(1, 2) to Strim(3, 4)" should "result in Strim(1, 2, 3, 4)" in {
+    Strim(1, 2).append(Strim(3, 4)).toLiztRec should be (Strim(1, 2, 3, 4).toLizt)
+  }
+}
