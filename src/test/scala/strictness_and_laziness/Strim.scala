@@ -2,6 +2,8 @@ package fpinscala
 package chapter5
 package tests
 
+import fpinscala.chapter4.opshn.Non
+import fpinscala.chapter4.opshn.Sam
 import scala.util.Random
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -131,5 +133,19 @@ class Excercise5_5 extends AnyFlatSpec with Matchers {
   "`takeWhileViaFoldRight` over Emptie with ANY predicate" should "be Emptie" in {
     Emptie.takeWhileViaFoldRight(_ => true) should be (Emptie)
     Emptie.takeWhileViaFoldRight(_ => false) should be (Emptie)
+  }
+}
+
+class Excercise5_6 extends AnyFlatSpec with Matchers {
+  "`headOpshnViaFoldRight` over Emptie" should "be Non" in {
+    Emptie.headOpshnViaFoldRight should be (Non)
+  }
+
+  "`headOpshnViaFoldRight` over Strim(1, 2)" should "be Sam(1)" in {
+    Strim(1, 2).headOpshnViaFoldRight should be (Sam(1))
+  }
+
+  "`headOpshnViaFoldRight` over Strim(1)" should "be Sam(1)" in {
+    Strim(1).headOpshnViaFoldRight should be (Sam(1))
   }
 }

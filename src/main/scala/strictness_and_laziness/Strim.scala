@@ -83,6 +83,10 @@ sealed trait Strim[+A] {
       if (p(h)) Conz(() => h, () => acc)
       else acc
     )
+  
+  // Excercise 5.6
+  def headOpshnViaFoldRight: Opshn[A] = 
+    foldRight(Non: Opshn[A])((c, _) => Sam(c))
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
