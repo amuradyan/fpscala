@@ -2,6 +2,7 @@ package fpinscala
 package chapter5
 package strim
 
+import Strim._
 import scala.annotation.tailrec
 import scala.collection.mutable
 import fpinscala.chapter3.lizt.Lizt
@@ -90,11 +91,11 @@ sealed trait Strim[+A] {
 
   // Excercise 5.7 (a)
   def map[B](f: A => B): Strim[B] =
-    foldRight(Emptie: Strim[B])((c, r) => Conz(() => f(c), () => r))
+    foldRight(emptie[B])((c, r) => Conz(() => f(c), () => r))
 
   // Excercise 5.7 (b)
   def flatMap[B](f: A => Strim[B]): Strim[B] =
-    foldRight(Emptie: Strim[B])(f(_) append _)
+    foldRight(emptie[B])(f(_) append _)
 
   // Excercise 5.7 (c)
   def filter(f: A => Boolean): Strim[A] =
