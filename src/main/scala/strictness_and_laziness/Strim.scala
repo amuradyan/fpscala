@@ -31,6 +31,8 @@ sealed trait Strim[+A] {
   def existsViaFoldRight(p: A => Boolean): Boolean =
     foldRight(false)(p(_) || _)
 
+  def find(p: A => Boolean): Opshn[A] = filter(p).headOpshn
+
   // Excercise 5.1 (1)
   def toLizt: Lizt[A] = this match {
     case Conz(h, t) => lizt.Conz(h(), t().toLizt)
@@ -124,4 +126,15 @@ object Strim {
 
   def apply[A](as: A*): Strim[A] =
     if (as.isEmpty) emptie else conz(as.head, apply(as.tail: _*))
+
+  // Excercise 5.8 (a)
+  def constant[A](a: A): Strim[A] = Conz(() => a, () => constant(a))
+  // Excercise 5.8 (b)
+  def constantLazy[A](a: A): Strim[A] = {
+    lazy val tail: Strim[A] = Conz(() => a, () => tail)
+    tail
+  }
+
+  // Excercise 5.9
+  def from(n: Int): Strim[Int] = Conz(() => n, () => from(n + 1))
 }

@@ -2,6 +2,7 @@ package fpinscala
 package chapter5
 package tests
 
+
 import fpinscala.chapter4.opshn.Non
 import fpinscala.chapter4.opshn.Sam
 import scala.util.Random
@@ -196,5 +197,29 @@ class Excercise5_7 extends AnyFlatSpec with Matchers {
 
   "appending Strim(1, 2) to Strim(3, 4)" should "result in Strim(1, 2, 3, 4)" in {
     Strim(1, 2).append(Strim(3, 4)).toLiztRec should be (Strim(1, 2, 3, 4).toLizt)
+  }
+}
+
+class Excercise5_8 extends AnyFlatSpec with Matchers {
+  "`constant` Strim of a number" should "constantly generate that number" in {
+    val a = Random.nextInt(30)
+    val b = Random.nextInt(30)
+    val c = Random.nextInt(30)
+    val v = 1
+    
+    val l = List.fill(a)(1)
+    Strim.constant(v).take(a).toLizt should be (Lizt.fill(a)(v))
+    Strim.constant(v).take(b).toLizt should be (Lizt.fill(b)(v))
+    Strim.constant(v).take(c).toLizt should be (Lizt.fill(c)(v))
+  }
+}
+
+class Excercise5_9 extends AnyFlatSpec with Matchers {
+  "seventh element `from` 1" should "be 7" in {
+    Strim.from(1).take(7).drop(6).headOpshn should be (Sam(7))
+  }
+
+  "first element `from` 1" should "be 1" in {
+    Strim.from(1).take(1).headOpshn should be (Sam(1))
   }
 }

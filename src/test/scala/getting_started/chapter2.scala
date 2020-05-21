@@ -33,7 +33,7 @@ class Excercise2_1 extends AnyFlatSpec with Matchers {
   }
 
   it should "return 55 for 10th index" in {
-    Chapter2.Fib(10)
+    Chapter2.Fib(10) should be (55)
   }
 }
 

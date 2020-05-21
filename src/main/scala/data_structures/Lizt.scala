@@ -37,6 +37,8 @@ object Lizt {
 
   def product2(as: Lizt[Double]) = foldRight(as, 1.0)(_ * _)
 
+  def fill[A](n: Int)(e: => A): Lizt[A] = if (n > 0) Conz(e, fill(n - 1)(e)) else Nill
+
   // Excercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => tail

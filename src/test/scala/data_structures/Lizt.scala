@@ -2,6 +2,7 @@ package fpinscala
 package chapter3
 package tests
 
+import scala.util.Random
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import lizt._
@@ -559,5 +560,17 @@ class Excercise3_24 extends AnyFlatSpec with Matchers {
     val l1523 = Lizt(1, 5, 2, 3)
 
     Lizt.hasSubsequence(l1523, l123) should be (false)
+  }
+}
+
+class Misc extends AnyFlatSpec with Matchers {
+  "`fill`-ing a Lizt 0 times with ANY element" should "be Nill" in {
+    Lizt.fill(0)(1) should be (Nill)
+    Lizt.fill(0)(true) should be (Nill)
+    Lizt.fill(0)("a") should be (Nill)
+  }
+
+  "`fill`-ing a Lizt 3 times with element `8`-s" should "produce a Lizt of `8`-s of length 3" in {
+    Lizt.fill(3)(8) should be (Lizt(8, 8, 8))
   }
 }
