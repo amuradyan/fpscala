@@ -129,6 +129,7 @@ object Strim {
 
   // Excercise 5.8 (a)
   def constant[A](a: A): Strim[A] = Conz(() => a, () => constant(a))
+
   // Excercise 5.8 (b)
   def constantLazy[A](a: A): Strim[A] = {
     lazy val tail: Strim[A] = Conz(() => a, () => tail)
@@ -137,4 +138,19 @@ object Strim {
 
   // Excercise 5.9
   def from(n: Int): Strim[Int] = Conz(() => n, () => from(n + 1))
+
+  // Excercise 5.10
+  def fibs: Strim[Int] = {
+    def fib(a: Int, b: Int): Strim[Int] = {
+      Conz(() => a, () => fib(b, a + b))
+    }
+
+    fib(0, 1)
+  }
+
+  // Excercise 5.11
+  def unfold[A, S](z: S)(f: S => Opshn[(A, S)]): Strim[A] = f(z) match {
+    case Sam((h, z)) => conz(h, unfold(z)(f))
+    case Non => emptie
+  }
 }
