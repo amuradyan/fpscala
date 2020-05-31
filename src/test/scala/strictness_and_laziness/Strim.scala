@@ -2,7 +2,7 @@ package fpinscala
 package chapter5
 package tests
 
-
+import fpinscala.chapter4.opshn.Opshn
 import fpinscala.chapter4.opshn.Non
 import fpinscala.chapter4.opshn.Sam
 import scala.util.Random
@@ -206,7 +206,7 @@ class Excercise5_8 extends AnyFlatSpec with Matchers {
     val b = Random.nextInt(30)
     val c = Random.nextInt(30)
     val v = 1
-    
+
     val l = List.fill(a)(1)
     Strim.constant(v).take(a).toLizt should be (Lizt.fill(a)(v))
     Strim.constant(v).take(b).toLizt should be (Lizt.fill(b)(v))
@@ -243,5 +243,38 @@ class Excercise5_10 extends AnyFlatSpec with Matchers {
 
   it should "return 34 for 10th take" in {
     Strim.fibs.take(10).drop(9).headOpshn should be (Sam(34))
+  }
+}
+
+class Excercise5_11 extends AnyFlatSpec with Matchers {
+  import Strim._
+
+  def ASCIIfy(s: String): Opshn[(Int, String)] = s match {
+    case "" => Non
+    case s  => Sam(s.head.toInt, s.tail)
+  }
+
+
+  "`unfold`-ing anything with Non" should "return Emptie" in {
+    Strim.unfold(0)(a => Non) should be (Emptie)
+    Strim.unfold("0")(a => Non) should be (Emptie)
+    Strim.unfold(false)(a => Non) should be (Emptie)
+  }
+
+  "`unfold`-ing a string via ASCII-fier" should "retun the Lizt of ASCII codes fo the string" in {
+    val source = "Raphique"
+    val ASCIIfiedRafique = Lizt(82, 97, 112, 104, 105, 113, 117, 101)
+
+    val s = Strim.unfold(source) { ASCIIfy }
+
+    s.take(8).toLizt should be (ASCIIfiedRafique)
+  }
+
+  "9th element of `unfold`-ing a 'Raphique' via ASCII-fier" should "retun Nill" in {
+    val source = "Raphique"
+
+    val s = Strim.unfold(source) { ASCIIfy }
+
+    s.drop(8).take(1).toLizt should be (Nill)
   }
 }

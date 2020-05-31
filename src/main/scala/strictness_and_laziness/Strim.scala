@@ -109,6 +109,7 @@ sealed trait Strim[+A] {
   // Excercise 5.7 (d)
   def append[B >: A](bs: => Strim[B]): Strim[B] =
     foldRight(bs)((a, b) => Conz(() => a, () => b))
+
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
@@ -126,6 +127,8 @@ object Strim {
 
   def apply[A](as: A*): Strim[A] =
     if (as.isEmpty) emptie else conz(as.head, apply(as.tail: _*))
+
+   val ones: Strim[Int] = conz(1, ones)
 
   // Excercise 5.8 (a)
   def constant[A](a: A): Strim[A] = Conz(() => a, () => constant(a))

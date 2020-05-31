@@ -3,6 +3,7 @@ fpscala.code-workspace
 .classpath
 *.pdf
 
+.gradle/
 .metals/
 .bloop/
 target/
