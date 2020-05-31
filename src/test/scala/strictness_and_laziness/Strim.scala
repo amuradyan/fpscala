@@ -254,6 +254,11 @@ class Excercise5_11 extends AnyFlatSpec with Matchers {
     case s  => Sam(s.head.toInt, s.tail)
   }
 
+  "`unfold`-ing Emptie via anything" should "be Emptie" in {
+    Strim.unfold(0)(_ => Non) should be (Emptie) 
+    Strim.unfold(true)(_ => Non) should be (Emptie) 
+    Strim.unfold("")(_ => Non) should be (Emptie) 
+  }
 
   "`unfold`-ing anything with Non" should "return Emptie" in {
     Strim.unfold(0)(a => Non) should be (Emptie)
