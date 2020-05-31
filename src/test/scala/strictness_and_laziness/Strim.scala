@@ -278,3 +278,39 @@ class Excercise5_11 extends AnyFlatSpec with Matchers {
     s.drop(8).take(1).toLizt should be (Nill)
   }
 }
+
+class Excercise5_12 extends AnyFlatSpec with Matchers {
+  import Strim._
+
+  "`fibsViaUnfold`" should "behave as `fibs`" in {
+    Strim.fibs.take(1).headOpshn should be (Strim.fibsViaUnfold.take(1).headOpshn)
+    Strim.fibs.drop(2).take(1).headOpshn should be (Strim.fibsViaUnfold.drop(2).take(1).headOpshn)
+    Strim.fibs.drop(3).take(1).headOpshn should be (Strim.fibsViaUnfold.drop(3).take(1).headOpshn)
+    Strim.fibs.drop(4).take(1).headOpshn should be (Strim.fibsViaUnfold.drop(4).take(1).headOpshn)
+    Strim.fibs.drop(10).take(1).headOpshn should be (Strim.fibsViaUnfold.drop(10).take(1).headOpshn)
+  }
+
+  "`fromViaUnfold`" should "behave as `from`" in {
+    Strim.fromViaUnfold(1).take(1).headOpshn should be (Strim.from(1).take(1).headOpshn)
+    Strim.fromViaUnfold(1).drop(6).take(1).headOpshn should be (Strim.from(1).drop(6).take(1).headOpshn)
+  }
+
+  "`constantViaUnfold`" should "behave as `constant`" in {
+    val a = Random.nextInt(30)
+    val b = Random.nextInt(30)
+    val c = Random.nextInt(30)
+    val v = 1
+
+    val l = List.fill(a)(1)
+    Strim.constant(v).take(a).toLizt should be (Strim.constantViaUnfold(v).take(a).toLizt)
+    Strim.constant(v).take(b).toLizt should be (Strim.constantViaUnfold(v).take(b).toLizt)
+    Strim.constant(v).take(c).toLizt should be (Strim.constantViaUnfold(v).take(c).toLizt)
+  }
+
+  "`onesViaUnfold`" should "behave as `ones`" in {
+    val idx = Random.nextInt(100)
+    
+    Strim.onesViaUnfold.drop(idx).take(1).headOpshn should be (Sam(1))
+    Strim.onesViaUnfold.drop(idx).take(1).toLizt should be (Strim.ones.drop(idx).take(1).toLizt)
+  }
+}

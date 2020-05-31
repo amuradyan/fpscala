@@ -156,4 +156,18 @@ object Strim {
     case Sam((h, z)) => conz(h, unfold(z)(f))
     case Non => emptie
   }
+
+  // Excercise 5.12 (a)
+  def fibsViaUnfold: Strim[Int] = unfold((0, 1)) {
+    case (a, b) => Sam(a, (b, a + b))
+  }
+
+  // Excercise 5.12 (b)
+  def fromViaUnfold(n: Int): Strim[Int] = unfold(n) { v => Sam(v, v + 1) }
+
+  // Excercise 5.12 (a)
+  def constantViaUnfold(c: Int): Strim[Int] = unfold(c) { v => Sam(v, v) }
+
+  // Excercise 5.12 (a)
+  def onesViaUnfold: Strim[Int] = unfold(1) { v => Sam(v, v) }
 }
