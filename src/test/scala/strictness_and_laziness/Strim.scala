@@ -216,7 +216,7 @@ class Excercise5_8 extends AnyFlatSpec with Matchers {
 
 class Excercise5_9 extends AnyFlatSpec with Matchers {
   "seventh element `from` 1" should "be 7" in {
-    Strim.from(1).take(7).drop(6).headOpshn should be (Sam(7))
+    Strim.from(1).drop(6).take(1).headOpshn should be (Sam(7))
   }
 
   "first element `from` 1" should "be 1" in {
@@ -230,19 +230,19 @@ class Excercise5_10 extends AnyFlatSpec with Matchers {
   }
 
   it should "return 1 for 2nd take" in {
-    Strim.fibs.take(2).drop(1).headOpshn should be (Sam(1));
+    Strim.fibs.drop(1).take(1).headOpshn should be (Sam(1));
   }
 
   it should "return 1 for 3rd take" in {
-    Strim.fibs.take(3).drop(2).headOpshn should be (Sam(1));
+    Strim.fibs.drop(2).take(1).headOpshn should be (Sam(1));
   }
 
   it should "return 2 for 4th take" in {
-    Strim.fibs.take(4).drop(3).headOpshn should be (Sam(2));
+    Strim.fibs.drop(3).take(1).headOpshn should be (Sam(2));
   }
 
   it should "return 34 for 10th take" in {
-    Strim.fibs.take(10).drop(9).headOpshn should be (Sam(34))
+    Strim.fibs.drop(9).take(1).headOpshn should be (Sam(34))
   }
 }
 
