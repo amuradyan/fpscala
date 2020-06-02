@@ -484,7 +484,7 @@ class Excercise3_23 extends AnyFlatSpec with Matchers {
     Lizt.zipWith(l123, l456)(_ + _) should be (l579)
   }
 
-  "`zipWith` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9) with subtraction as the zipping function" in {
+  "`zipWith` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(-3, -3, -3) with subtraction as the zipping function" in {
     val l123 = Lizt(1, 2, 3)
     val l456 = Lizt(4, 5, 6)
     val lm3m3m3 = Lizt(-3, -3, -3)
@@ -492,7 +492,7 @@ class Excercise3_23 extends AnyFlatSpec with Matchers {
     Lizt.zipWith(l123, l456)(_ - _) should be (lm3m3m3)
   }
 
-  "`zipWith` with any or both of the lizts being empty" should "result in empty lizt regardles of the zipping function" in {
+  "`zipWith` with any or both of the Lizts being empty" should "result in Nill regardles of the zipping function" in {
     val l123 = Lizt(1, 2, 3)
 
     Lizt.zipWith(l123, Nill)(_ + _) should be (Nill)
@@ -503,7 +503,7 @@ class Excercise3_23 extends AnyFlatSpec with Matchers {
     Lizt.zipWith(Nill: Lizt[Int], Nill: Lizt[Int])(_ - _) should be (Nill)
   }
 
-  "`zipWith` result" should "be the length of the shorter lizt regardles of the zipping function" in {
+  "`zipWith` result" should "be the length of the shorter Lizt regardles of the zipping function" in {
     val l12 = Lizt(1, 2)
     val l12345 = Lizt(1, 2, 3, 4, 5)
 

@@ -376,4 +376,74 @@ class Excercise5_13 extends AnyFlatSpec with Matchers {
     Emptie.takeWhileViaUnfold(_ => true) should be (Emptie.takeWhile(_ => true))
     Emptie.takeWhileViaUnfold(_ => false) should be (Emptie.takeWhile(_ => false))
   }
+
+  "`zipWith` an Emptie" should "return Emptie" in {
+    val s123 = Strim(1, 2, 3)
+
+    s123.zipWith(Emptie)(_ + _) should be (Emptie)
+    emptie[String].zipWith(s123)(_ + _) should be (Emptie)
+  }
+
+  "`zipWith` with Strim(1, 2, 3) and Strim(4, 5, 6)" should "be Strim(5, 7, 9) with addition as the zipping function" in {
+    val s123 = Strim(1, 2, 3)
+    val s456 = Strim(4, 5, 6)
+    val l579 = Lizt(5, 7, 9)
+
+    s123.zipWith(s456)(_ + _).toLizt should be (l579)
+  }
+
+  "`zipWith` with Strim(1, 2, 3) and Strim(4, 5, 6)" should "be Strim(-3, -3, -3) with subtraction as the zipping function" in {
+    val s123 = Strim(1, 2, 3)
+    val s456 = Strim(4, 5, 6)
+    val lm3m3m3 = Lizt(-3, -3, -3)
+
+    s123.zipWith(s456)(_ - _).toLizt should be (lm3m3m3)
+  }
+
+  "`zipWith` with any or both of the Strims being Emptie" should "result in Emptie regardles of the zipping function" in {
+    val s123 = Strim(1, 2, 3)
+
+    s123.zipWith(emptie[Int])(_ + _) should be (Emptie)
+    emptie[Int].zipWith(s123)(_ + _) should be (Emptie)
+    emptie[Int].zipWith(emptie[Int])(_ + _) should be (Emptie)
+    s123.zipWith(emptie[Int])(_ - _) should be (Emptie)
+    emptie[Int].zipWith(s123)(_ - _) should be (Emptie)
+    emptie[Int].zipWith(emptie[Int])(_ - _) should be (Emptie)
+  }
+
+  "`zipWith` result" should "be the length of the shorter Strim regardles of the zipping function" in {
+    val s12 = Strim(1, 2)
+    val s12345 = Strim(1, 2, 3, 4, 5)
+    val l12 = Lizt(1, 2)
+
+    Lizt.length(s12.zipWith(s12345)(_ + _).toLizt) should be (Lizt.length(l12))
+    Lizt.length(s12.zipWith(s12345)(_ - _).toLizt) should be (Lizt.length(l12))
+  }
+
+  "`zipAll` an Emptie with a Strim" should "return the Strim" in {
+    val s123 = Strim(1, 2, 3)
+    val strimEmptieZip = Lizt((Sam(1), Non), (Sam(2), Non), (Sam(3), Non))
+    val emptieStrimZip = Lizt((Non, Sam(1)), (Non, Sam(2)), (Non, Sam(3)))
+
+    s123.zipAll(Emptie).toLizt should be (strimEmptieZip)
+    emptie[String].zipAll(s123).toLizt should be (emptieStrimZip)
+  }
+
+  "`zipAll` with Strim(1, 2, 3) and Strim(4, 5, 6)" should "be Lizt((Sam(1), Sam(4)), (Sam(2), Sam(5)), (Sam(3), Sam(6)))" in {
+    val s123 = Strim(1, 2, 3)
+    val s456 = Strim(4, 5, 6)
+    val strimStrimZip = Lizt((Sam(1), Sam(4)), (Sam(2), Sam(5)), (Sam(3), Sam(6)))
+
+    s123.zipAll(s456).toLizt should be (strimStrimZip)
+  }
+
+  "`zipAll` with two Strims" should "should stay productive, while any of the strims is productive" in {
+    val s123 = Strim(1, 2, 3)
+    val s12 = Strim(1, 2)
+    val s12s123Zip = Lizt((Sam(1), Sam(1)), (Sam(2), Sam(2)), (Non, Sam(3)))
+    val s123s12Zip = Lizt((Sam(1), Sam(1)), (Sam(2), Sam(2)), (Sam(3), Non))
+
+    s12.zipAll(s123).toLizt should be (s12s123Zip)
+    s123.zipAll(s12).toLizt should be (s123s12Zip)
+  }
 }

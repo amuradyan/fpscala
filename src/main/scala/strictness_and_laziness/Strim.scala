@@ -117,7 +117,6 @@ sealed trait Strim[+A] {
   }
 
   // Excercise 5.13 (b)
-  // This looks somehow wrong, but works
   def takeViaUnfold(n: Int): Strim[A] = unfold((this, n)) {
     case (_, 0)          => Non
     case (Emptie, _)     => Non
@@ -131,10 +130,18 @@ sealed trait Strim[+A] {
   }
 
   // Excercise 5.13 (d)
-  def zipWith[B](bs: Strim[B]): Strim[(A, B)] = ???
+  def zipWith[B >: A](as: Strim[B])(f: (A, B) => B): Strim[B] = unfold((this, as)) {
+    case (Conz(h1, t1), Conz(h2, t2)) => Sam((f(h1(), h2()), (t1(), t2())))
+    case _                            => Non
+  }
 
   // Excercise 5.13 (e)
-  def zipAll[B](bs: Strim[B]): Strim[(Opshn[A], Opshn[B])] = ???
+  def zipAll[B](bs: Strim[B]): Strim[(Opshn[A], Opshn[B])] = unfold((this, bs)) {
+    case (Conz(h1, t1), Conz(h2, t2)) => Sam((Sam(h1()), Sam(h2())), (t1(), t2()))
+    case (Conz(h1, t1), Emptie)       => Sam(((Sam(h1()), Non), (t1(), emptie[B])))
+    case (Emptie, Conz(h2, t2))       => Sam(((Non, Sam(h2())), (emptie[A], t2())))
+    case _                            => Non
+  }
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]

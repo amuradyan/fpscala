@@ -140,9 +140,8 @@ object Lizt {
 
   // Excercise 3.23
   def zipWith[A](as: Lizt[A], bs: Lizt[A])(f: (A, A) => A): Lizt[A] = (as, bs) match {
-    case (_, Nill)                    => Nill
-    case (Nill, _)                    => Nill
     case (Conz(ah, at), Conz(bh, bt)) => Conz(f(ah, bh), zipWith(at, bt)(f))
+    case _ => Nill
   }
 
   // Excercise 3.24
