@@ -74,14 +74,14 @@ class Excercise5_3 extends AnyFlatSpec with Matchers {
     sABCD.takeWhile(_ => true).toLizt should be (Lizt('A', 'B', 'C', 'D'))
   }
 
-  "`takeWhile` over Strim(1, 2, 3, 4) with an odd predicate" should "be Strim(1, 3)" in {
+  "`takeWhile` over Strim(1, 2, 3, 4) with an odd predicate" should "be Strim(1)" in {
     val isOdd = (n: Int) => (n % 2) != 0
-    s1234.takeWhile(isOdd).toLizt should be ((Lizt(1, 3)))
+    s1234.takeWhile(isOdd).toLizt should be ((Lizt(1)))
   }
 
-  "`takeWhile` over Strim(1, 2, 3, 4) with an even predicate" should "be Strim(2, 4)" in {
+  "`takeWhile` over Strim(1, 2, 3, 4) with an even predicate" should "be Emptie" in {
     val isEven = (n: Int) => (n % 2) == 0
-    s1234.takeWhile(isEven).toLizt should be ((Lizt(2, 4)))
+    s1234.takeWhile(isEven).toLizt should be (Nill)
   }
 
   "`takeWhile` over Emptie with ANY predicate" should "be Emptie" in {
@@ -317,5 +317,63 @@ class Excercise5_12 extends AnyFlatSpec with Matchers {
     
     Strim.onesViaUnfold.drop(idx).take(1).headOpshn should be (Sam(1))
     Strim.onesViaUnfold.drop(idx).take(1).toLizt should be (Strim.ones.drop(idx).take(1).toLizt)
+  }
+}
+
+class Excercise5_13 extends AnyFlatSpec with Matchers {
+  import Strim._
+
+  val s12345 = Strim(1, 2, 3, 4, 5)
+  val s1234 = Strim(1, 2, 3, 4)
+  val sABCD = Strim('A', 'B', 'C', 'D')
+
+  "`mapViaUnfold` over Emptie" should "behave as `map`" in {
+    Emptie.mapViaUnfold(_ => 1) should be (Emptie.map(_ => 1))
+  }
+
+  "`mapViaUnfold` over Strim(4, 9, 16) with square rooting" should "behave as `map`" in {
+    Strim(4, 9, 16).mapViaUnfold(math.sqrt(_)).toLizt should be (Strim(4, 9, 16).map(math.sqrt(_)).toLizt)
+  }
+
+  "`takeViaUnfold`-ing from an Emptie" should "behave as `take`-ing" in {
+    val idx = Random.nextInt()
+    Emptie.takeViaUnfold(idx) should be (Emptie.take(idx))
+  }
+
+  "`takeViaUnfold`-ing 4 over Strim(1, 2, 3, 4, 5)" should "behave as `take`-ing" in {
+    s12345.takeViaUnfold(4).toLizt should be (s12345.take(4).toLizt)
+  }
+
+  "`takeViaUnfold`-ing all from a Strim" should "behave as `take`-ing" in {
+    s12345.takeViaUnfold(5).toLizt should be (s12345.take(5).toLizt)
+  }
+
+  "`takeViaUnfold`-ing more than the original Strim" should "behave as `take`-ing" in {
+    s12345.takeViaUnfold(10).toLizt should be (s12345.take(10).toLizt)
+  }
+
+  "`takeWhileViaUnfold` over any Strim with a FALSE predicate" should "behave as `takeWhile`" in {
+    s1234.takeWhileViaUnfold(_ => false) should be (s1234.takeWhile(_ => false))
+    sABCD.takeWhileViaUnfold(_ => false) should be (sABCD.takeWhile(_ => false))
+  }
+
+  "`takeWhileViaUnfold` over any Strim with a TRUE predicate" should "behave as `takeWhile`" in {
+    s1234.takeWhileViaFoldRight(_ => true).toLizt should be (s1234.takeWhile(_ => true).toLizt)
+    sABCD.takeWhileViaFoldRight(_ => true).toLizt should be (sABCD.takeWhile(_ => true).toLizt)
+  }
+
+  "`takeWhileViaUnfold` over Strim(1, 2, 3, 4) with an odd predicate" should "behave as `takeWhile`" in {
+    val isOdd = (n: Int) => (n % 2) != 0
+    s1234.takeWhileViaUnfold(isOdd).toLizt should be (s1234.takeWhile(isOdd).toLizt)
+  }
+
+  "`takeWhileViaUnfold` over Strim(1, 2, 3, 4) with an even predicate" should "behave as `takeWhile`" in {
+    val isEven = (n: Int) => (n % 2) == 0
+    s1234.takeWhileViaUnfold(isEven).toLizt should be (s1234.takeWhile(isEven).toLizt)
+  }
+
+  "`takeWhileViaUnfold` over Emptie with ANY predicate" should "behave as `takeWhile`" in {
+    Emptie.takeWhileViaUnfold(_ => true) should be (Emptie.takeWhile(_ => true))
+    Emptie.takeWhileViaUnfold(_ => false) should be (Emptie.takeWhile(_ => false))
   }
 }

@@ -73,8 +73,8 @@ sealed trait Strim[+A] {
 
   // Excercise 5.3
   def takeWhile(p: A => Boolean): Strim[A] = this match {
-    case Conz(h, t) => if (p(h())) Conz(h, () => t().takeWhile(p)) else t().takeWhile(p)
-    case Emptie     => Emptie
+    case Conz(h, t) if p(h()) => Conz(h, () => t().takeWhile(p))
+    case _                    => Emptie
   }
 
   // Excercise 5.4
@@ -86,9 +86,9 @@ sealed trait Strim[+A] {
       if (p(h)) Conz(() => h, () => acc)
       else acc
     )
-  
+
   // Excercise 5.6
-  def headOpshnViaFoldRight: Opshn[A] = 
+  def headOpshnViaFoldRight: Opshn[A] =
     foldRight(Non: Opshn[A])((c, _) => Sam(c))
 
   // Excercise 5.7 (a)
@@ -101,7 +101,7 @@ sealed trait Strim[+A] {
 
   // Excercise 5.7 (c)
   def filter(f: A => Boolean): Strim[A] =
-    foldRight(Emptie: Strim[A])((c, r) => 
+    foldRight(Emptie: Strim[A])((c, r) =>
       if (f(c)) Conz(() => c, () => r)
       else r
     )
@@ -110,6 +110,31 @@ sealed trait Strim[+A] {
   def append[B >: A](bs: => Strim[B]): Strim[B] =
     foldRight(bs)((a, b) => Conz(() => a, () => b))
 
+  // Excercise 5.13 (a)
+  def mapViaUnfold[B](f: A => B): Strim[B] = unfold(this) {
+    case Conz(h, t) => Sam((f(h()), t()))
+    case Emptie     => Non
+  }
+
+  // Excercise 5.13 (b)
+  // This looks somehow wrong, but works
+  def takeViaUnfold(n: Int): Strim[A] = unfold((this, n)) {
+    case (_, 0)          => Non
+    case (Emptie, _)     => Non
+    case (Conz(h, t), c) => Sam(h(), (t(), c - 1))
+  }
+
+  // Excercise 5.13 (c)
+  def takeWhileViaUnfold(p: A => Boolean): Strim[A] = unfold(this) {
+    case Conz(h, t) if (p(h())) => Sam((h(), t()))
+    case _                      => Non
+  }
+
+  // Excercise 5.13 (d)
+  def zipWith[B](bs: Strim[B]): Strim[(A, B)] = ???
+
+  // Excercise 5.13 (e)
+  def zipAll[B](bs: Strim[B]): Strim[(Opshn[A], Opshn[B])] = ???
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
@@ -128,7 +153,7 @@ object Strim {
   def apply[A](as: A*): Strim[A] =
     if (as.isEmpty) emptie else conz(as.head, apply(as.tail: _*))
 
-   val ones: Strim[Int] = conz(1, ones)
+  val ones: Strim[Int] = conz(1, ones)
 
   // Excercise 5.8 (a)
   def constant[A](a: A): Strim[A] = Conz(() => a, () => constant(a))
@@ -154,7 +179,7 @@ object Strim {
   // Excercise 5.11
   def unfold[A, S](z: S)(f: S => Opshn[(A, S)]): Strim[A] = f(z) match {
     case Sam((h, z)) => conz(h, unfold(z)(f))
-    case Non => emptie
+    case Non         => emptie
   }
 
   // Excercise 5.12 (a)
