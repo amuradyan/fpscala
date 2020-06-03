@@ -2,7 +2,6 @@ package fpinscala
 package chapter3
 package tests
 
-import scala.util.Random
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import lizt._
