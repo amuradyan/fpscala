@@ -5,6 +5,12 @@ package opshn
 import chapter3.lizt._
 
 sealed trait Opshn[+A] {
+
+  def isEmpty = this match {
+    case Sam(_) => false
+    case Non    => true
+  }
+
   // Excercise 4.1 (a)
   def map[B](f: A => B): Opshn[B] = this match {
     case Non      => Non

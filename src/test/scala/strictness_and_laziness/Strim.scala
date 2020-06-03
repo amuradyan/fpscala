@@ -485,13 +485,6 @@ class Excercise5_14 extends AnyFlatSpec with Matchers {
     s1244 startsWith s1234 should be (false)
   }
 
-  "Strim(1, 2)" should "`startWith` Strim (1, 2, 3)" in {
-    val s123 = Strim(1, 2, 3)
-    val s12 = Strim(1, 2)
-
-    s12 startsWith s123 should be (true)
-  }
-
   "Emptie" can "not `startsWith` anything" in {
     val s123 = Strim(1, 2, 3)
     val s12 = Strim(1, 2)

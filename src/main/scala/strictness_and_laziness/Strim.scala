@@ -147,17 +147,9 @@ sealed trait Strim[+A] {
   def startsWith[A](as: Strim[A]): Boolean = (this, as) match {
     case (_, Emptie) => false
     case (Emptie, _) => false
-    case _ =>
-      !(zipAll(as)
-        filter {
-          case (Sam(l), Sam(r)) => true
-          case _                => false
-        }
-        map {
-          case (Sam(l), Sam(r)) => l == r
-          case _                => false
-        }
-        exists { _ == false })
+    case _ => zipAll(as) takeWhile { !_._2.isEmpty } forAll {
+      case (h,h2) => h == h2
+    }
   }
 }
 
