@@ -447,3 +447,68 @@ class Excercise5_13 extends AnyFlatSpec with Matchers {
     s123.zipAll(s12).toLizt should be (s123s12Zip)
   }
 }
+
+class Excercise5_14 extends AnyFlatSpec with Matchers {
+  import Strim._
+
+  "Strim(1, 2, 3)" should "`startWith` Strim (1, 2)" in {
+    val s123 = Strim(1, 2, 3)
+    val s12 = Strim(1, 2)
+    
+    s123 startsWith s12 should be (true)
+  }
+  
+  it should "`startWith` Strim (1, 2, 3)" in {
+    val s123 = Strim(1, 2, 3)
+    
+    s123 startsWith s123 should be (true)
+  }
+  
+  it should "not `startWith` Strim (1, 2, 4)" in {
+    val s123 = Strim(1, 2, 3)
+    val s124 = Strim(1, 2, 4)
+    
+    s123 startsWith s124 should be (false)
+  }
+  
+  "Strim(1, 2, 4)" should "not `startWith` Strim (1, 2, 3, 4)" in {
+    val s1234 = Strim(1, 2, 3, 4)
+    val s124 = Strim(1, 2, 4)
+
+    s124 startsWith s1234 should be (false)
+  }
+
+  "Strim(1, 2, 4, 4)" should "not `startWith` Strim (1, 2, 3, 4)" in {
+    val s1234 = Strim(1, 2, 3, 4)
+    val s1244 = Strim(1, 2, 4, 4)
+
+    s1244 startsWith s1234 should be (false)
+  }
+
+  "Strim(1, 2)" should "`startWith` Strim (1, 2, 3)" in {
+    val s123 = Strim(1, 2, 3)
+    val s12 = Strim(1, 2)
+
+    s12 startsWith s123 should be (true)
+  }
+
+  "Emptie" can "not `startsWith` anything" in {
+    val s123 = Strim(1, 2, 3)
+    val s12 = Strim(1, 2)
+
+    Emptie startsWith s123 should be (false)
+    Emptie startsWith s12 should be (false)
+  }
+
+  "Nothing" can "`startWith` Emptie" in {
+    val s123 = Strim(1, 2, 3)
+    val s12 = Strim(1, 2)
+
+    s12 startsWith Emptie should be (false)
+    s123 startsWith Emptie should be (false)
+  }
+
+  "Emptie" can "not `startWith` itself" in {
+    Emptie startsWith Emptie should be (false)
+  }
+}

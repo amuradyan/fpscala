@@ -142,6 +142,23 @@ sealed trait Strim[+A] {
     case (Emptie, Conz(h2, t2))       => Sam(((Non, Sam(h2())), (emptie[A], t2())))
     case _                            => Non
   }
+
+  // Excercise 5.14
+  def startsWith[A](as: Strim[A]): Boolean = (this, as) match {
+    case (_, Emptie) => false
+    case (Emptie, _) => false
+    case _ =>
+      !(zipAll(as)
+        filter {
+          case (Sam(l), Sam(r)) => true
+          case _                => false
+        }
+        map {
+          case (Sam(l), Sam(r)) => l == r
+          case _                => false
+        }
+        exists { _ == false })
+  }
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
