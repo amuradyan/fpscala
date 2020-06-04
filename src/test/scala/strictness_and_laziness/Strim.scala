@@ -505,3 +505,54 @@ class Excercise5_14 extends AnyFlatSpec with Matchers {
     Emptie startsWith Emptie should be (false)
   }
 }
+
+class Excercise5_15 extends AnyFlatSpec with Matchers {
+  "`tails` of Strim(1, 2, 3)" should "be Strim(Strim(1, 2, 3), Strim(1, 2), Strim(1), Strim())" in {
+      val s123 = Strim(1, 2, 3)
+      val tailsOfs123 = Lizt(Lizt(1, 2, 3), Lizt(2, 3), Lizt(3))
+
+      s123.tails.map( _.toLizt ).toLizt should be (tailsOfs123)
+    }
+
+  "`tails` of Emptie" should "be Emptie" in {
+    Emptie.tails should be (Emptie)
+  }
+}
+
+class Excercise5_16 extends AnyFlatSpec with Matchers {
+  "`scanRight` over Emptie" should "be the zero element be Emptie" in {
+    Emptie.scanRight(0){(a, b) => 1}.toLizt should be (Lizt(0))
+    Emptie.scanRight("")((a, b) => "ab").toLizt should be (Lizt(""))
+    Emptie.scanRight(Emptie){(a, b) => Emptie}.toLizt should be (Lizt(Emptie))
+  }
+
+  "`scanRight` over Strim(1, 2, 3) with adder" should "be Strim(6, 5, 3, 0)" in {
+    Strim(1, 2, 3).scanRight(0)(_ + _).toLizt should be (Lizt(6, 5, 3, 0))
+  }
+
+  "`scanRight` over Strim('a', 'b', 'c') with adder" should "be Strim('abc', 'bc', 'c', '')" in {
+    Strim("a", "b", "c").scanRight("")(_ + _).toLizt should be (Lizt("abc", "bc", "c", ""))
+  }
+}
+
+class Misc extends AnyFlatSpec with Matchers {
+  "Strim(3, 4)" should "be a subsequence of Strim(2, 3, 4, 5)" in {
+    Strim(2, 3, 4, 5) hasSubsequence Strim(3, 4) should be (true)
+  }
+
+  "Strim(3, 4)" should "not be a subsequence of Strim(2, 3, 2, 3)" in {
+    Strim(2, 3, 2, 3) hasSubsequence Strim(3, 4) should be (false)
+  }
+
+  "Emptie" should "not be a subsequence of anything" in {
+    Strim(1, 2, 3) hasSubsequence Emptie should be (false)
+    Strim() hasSubsequence Emptie should be (false)
+    Emptie hasSubsequence Emptie should be (false)
+  }
+
+  "Nothing" should "be a subsequence of Emptie" in {
+    Emptie hasSubsequence Strim(1, 2, 3) should be (false)
+    Emptie hasSubsequence Strim() should be (false)
+    Emptie hasSubsequence Emptie should be (false)
+  }
+}

@@ -33,6 +33,8 @@ sealed trait Strim[+A] {
 
   def find(p: A => Boolean): Opshn[A] = filter(p).headOpshn
 
+  def hasSubsequence[A](as: Strim[A]): Boolean = tails exists (_ startsWith as)
+
   // Excercise 5.1 (1)
   def toLizt: Lizt[A] = this match {
     case Conz(h, t) => lizt.Conz(h(), t().toLizt)
@@ -152,6 +154,22 @@ sealed trait Strim[+A] {
         case (h, h2) => h == h2
       }
   }
+
+  // Excercise 5.15
+  def tails: Strim[Strim[A]] = unfold(this) {
+    case Emptie     => Non
+    case Conz(h, t) => Sam((Conz(h, t), t()))
+  }
+
+  // Excercise 5.16
+  def scanRight[B](z: B)(f: (A, => B) => B): Strim[B] =
+    foldRight((z, Strim(z))) { (curr, acc) =>
+      {
+        lazy val lzAcc = acc
+        val h = f(curr, acc._1)
+        (h, conz(h, lzAcc._2))
+      }
+    }._2
 }
 
 case class Conz[+A](h: () => A, t: () => Strim[A]) extends Strim[A]
