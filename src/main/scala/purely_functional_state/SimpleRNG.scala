@@ -1,4 +1,4 @@
-package fpscala
+package fpinscala
 package chapter6
 package simple_rng
 
@@ -18,8 +18,17 @@ case class SimpleRNG(seed: Long) extends RNG {
 }
 
 object RNG {
+  // Excercise 6.1
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     val (n, rng1) = rng.nextInt
     if(n < 0) (-(n + 1), rng1) else (n, rng1)
+  }
+
+  // Excercise 6.2
+  def double(rng: RNG): (Double, RNG) = {
+    def prependZero(n: Int): Double = s"0.${n.toString()}".toDouble
+
+    val (n, r) = nonNegativeInt(rng);
+    (prependZero(n), r)
   }
 }

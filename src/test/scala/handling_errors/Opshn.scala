@@ -10,12 +10,12 @@ import fpinscala.chapter3.lizt._
 import scala.util.Random
 
 class Excercise4_1 extends AnyFlatSpec with Matchers {
-    def invert(a: Int): Opshn[Double] = a match {
-      case 0 => Non
-      case _ => Sam(1.0 / a)
-    }
+  def invert(a: Int): Opshn[Double] = a match {
+    case 0 => Non
+    case _ => Sam(1.0 / a)
+  }
 
-    "`map` over an Opshn" should "be Nan if the initial value is Nan" in {
+  "`map` over an Opshn" should "be Nan if the initial value is Nan" in {
     val n: Opshn[Int] = Non
 
     n.map(_ + 1) should be (Non)
