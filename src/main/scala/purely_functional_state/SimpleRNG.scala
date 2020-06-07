@@ -12,7 +12,6 @@ trait RNG {
 }
 
 case class SimpleRNG(seed: Long) extends RNG {
-
   // Linear congruental generator
   def nextInt: (Int, RNG) = {
     val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
@@ -23,6 +22,8 @@ case class SimpleRNG(seed: Long) extends RNG {
 }
 
 object RNG {
+  def prependZero(n: Int): Double = s"0.${n.toString()}".toDouble
+
   // Excercise 6.1
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     val (n, rng1) = rng.nextInt
@@ -31,7 +32,6 @@ object RNG {
 
   // Excercise 6.2
   def double(rng: RNG): (Double, RNG) = {
-    def prependZero(n: Int): Double = s"0.${n.toString()}".toDouble
 
     val (n, r) = nonNegativeInt(rng);
     (prependZero(n), r)
@@ -72,4 +72,20 @@ object RNG {
 
     loop(count, (Nill: Lizt[Int], rng))
   }
+
+  type Rand[+A] = RNG => (A, RNG)
+
+  val int: Rand[Int] = _.nextInt
+
+  def unit[A](a: A): Rand[A] = rng => (a, rng)
+
+  def map[A, B](s: Rand[A])(f: A => B): Rand[B] = rng => {
+    val (a, r) = s(rng)
+    (f(a), r)
+  }
+
+  def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
+
+  // Excercise 6.5
+  def doubleViaMap: Rand[Double] = map(nonNegativeInt)(prependZero(_))
 }

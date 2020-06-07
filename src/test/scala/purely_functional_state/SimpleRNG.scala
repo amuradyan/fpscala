@@ -68,3 +68,11 @@ class Excercise6_4 extends AnyFlatSpec with Matchers {
     RNG.ints(3)(sRNG) should be ((Lizt(-340305902, -1281479697, 16159453), r3))
   }
 }
+
+class Excercise6_5 extends AnyFlatSpec with Matchers {
+  val sRNG = SimpleRNG(42)
+ 
+  "`doubleViaMap`" should "behave as `double`" in {
+    RNG.doubleViaMap(sRNG) should be (RNG.double(sRNG))
+  }
+}
