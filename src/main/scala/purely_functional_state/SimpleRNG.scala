@@ -2,6 +2,11 @@ package fpinscala
 package chapter6
 package simple_rng
 
+import scala.annotation.tailrec
+import fpinscala.chapter3.lizt.Nill
+import fpinscala.chapter3.lizt.Conz
+import fpinscala.chapter3.lizt.Lizt
+
 trait RNG {
   def nextInt: (Int, RNG)
 }
@@ -30,5 +35,41 @@ object RNG {
 
     val (n, r) = nonNegativeInt(rng);
     (prependZero(n), r)
+  }
+
+  // Excercise 6.3 (a)
+  def intDouble(rng: RNG): (Int, Double) = {
+    val (i, r1) = rng.nextInt
+    val (d, r2) = double(r1)
+
+    (i, d)
+  }
+
+  // Excercise 6.3 (b)
+  def doubleInt(rng: RNG): (Double, Int) = {
+    val (i, r1) = rng.nextInt
+    val (d, r2) = double(r1)
+
+    (d, i)
+  }
+
+  // Excercise 6.3 (c)
+  def double3(rng: RNG): (Double, Double, Double) = {
+    val (d1, r1) = double(rng)
+    val (d2, r2) = double(r1)
+    val (d3, r3) = double(r2)
+
+    (d1, d2, d3)
+  }
+
+  // Excercise 6.4
+  def ints(count: Int)(rng: RNG): (Lizt[Int], RNG) = {
+    @annotation.tailrec
+    def loop(c: Int, s: (Lizt[Int], RNG)): (Lizt[Int], RNG) = {
+      val (i, r) = s._2.nextInt
+      if (c > 0) loop(c - 1, (Conz(i, s._1), r)) else s
+    }
+
+    loop(count, (Nill: Lizt[Int], rng))
   }
 }
