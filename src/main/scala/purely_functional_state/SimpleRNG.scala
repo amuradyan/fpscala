@@ -105,4 +105,10 @@ object RNG {
   // Excercise 6.7
   def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] = 
     Lizt.foldRightViaFoldLeft(fs, unit(Lizt[A]()))((f, acc) => map2(f, acc)(Conz(_, _)))
+
+  //Excercise 6.8
+  def flatMap[A, B](ra: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
+    val (a, _r) = ra(rng)
+    g(a)(_r)
+  }
 }

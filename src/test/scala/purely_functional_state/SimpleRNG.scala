@@ -7,6 +7,7 @@ import fpinscala.chapter3.lizt.Lizt
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import fpinscala.chapter6.simple_rng._
+import fpinscala.chapter6.simple_rng.RNG.Rand
 
 class Excercise6_1 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
@@ -98,6 +99,18 @@ class Excercise6_7 extends AnyFlatSpec with Matchers {
     val (_, r3) = RNG.ints(3)(sRNG)
 
     RNG.sequence(Nill)(sRNG) should be (Nill, sRNG)
+  }
+}
+
+class Excercise6_8 extends AnyFlatSpec with Matchers {
+  val sRNG = SimpleRNG(42)
+
+  def stringify[A](a: A): Rand[String] = ((a.toString), _)
+
+  "`flatMap`-ing over an Int with stringification" should "yield the String value of the Int" in {
+    val (_, r) = sRNG.nextInt
+
+    RNG.flatMap(RNG.int)(stringify)(sRNG) should be (("16159453", r))
   }
 }
 
