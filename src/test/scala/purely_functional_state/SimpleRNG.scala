@@ -114,6 +114,20 @@ class Excercise6_8 extends AnyFlatSpec with Matchers {
   }
 }
 
+class Excercise6_9 extends AnyFlatSpec with Matchers {
+  val sRNG = SimpleRNG(42)
+
+  def stringify[A](a: A): Rand[String] = ((a.toString), _)
+
+  "`mapViaFlatMap`-ing with stringification" should "behave as `map`" in {
+    RNG.mapViaFlatMap(RNG.int)(_.toString())(sRNG) should be (RNG.map(RNG.int)(_.toString())(sRNG))
+  }
+
+  "`map2ViaFlatMap`-ing with stringification" should "behave as `map2`" in {
+    RNG.map2ViaFlatMap(RNG.nonNegativeInt, RNG.nonNegativeInt)((a, b) => s"$a$b")(sRNG)._1 should be (RNG.map2(RNG.nonNegativeInt, RNG.nonNegativeInt)((a, b) => s"$a$b")(sRNG)._1)
+  }
+}
+
 class Misc extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
@@ -127,5 +141,9 @@ class Misc extends AnyFlatSpec with Matchers {
 
   "`doubleIntViaMap`" should "behave as `doubleInt`" in {
     RNG.doubleIntViaMap2(sRNG)._1 should be (RNG.doubleInt(sRNG))
+  }
+
+  "`nonNegativeLessThen`" should "behave as `nonNegativeLessThenViaFlatMap`" in {
+    RNG.nonNegativeLessThanViaFlatMap(2)(sRNG) should be (RNG.nonNegativeLessThan(2)(sRNG))
   }
 }

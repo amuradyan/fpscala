@@ -26,7 +26,7 @@ object RNG {
   // Excercise 6.1
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     val (n, rng1) = rng.nextInt
-    if(n < 0) (-(n + 1), rng1) else (n, rng1)
+    if (n < 0) (-(n + 1), rng1) else (n, rng1)
   }
 
   // Excercise 6.2
@@ -91,6 +91,25 @@ object RNG {
 
   def doubleIntViaMap2: Rand[(Double, Int)] = both(double, int)
 
+  def nonNegativeLessThan(n: Int): Rand[Int] = { rng =>
+    val (i, r) = nonNegativeInt(rng)
+    val mod = i % n
+
+    if (i + (n - 1) - mod >= 0)
+      (mod, r)
+    else nonNegativeLessThan(n)(rng)
+  }
+
+  def nonNegativeLessThanViaFlatMap(n: Int): Rand[Int] =
+    flatMap(nonNegativeInt)(a => {
+      val mod = a % n
+
+      if (a + (n - 1) - mod >= 0)(unit(mod))
+      else nonNegativeLessThan(n)
+    })
+
+  def rollDie: Rand[Int] = map(nonNegativeLessThanViaFlatMap(6))(_ + 1)
+
   // Excercise 6.5
   def doubleViaMap: Rand[Double] = map(nonNegativeInt)(prependZero(_))
 
@@ -103,7 +122,7 @@ object RNG {
   }
 
   // Excercise 6.7
-  def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] = 
+  def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] =
     Lizt.foldRightViaFoldLeft(fs, unit(Lizt[A]()))((f, acc) => map2(f, acc)(Conz(_, _)))
 
   //Excercise 6.8
@@ -111,4 +130,11 @@ object RNG {
     val (a, _r) = ra(rng)
     g(a)(_r)
   }
+
+  // Excercise 6.9 (a)
+  def mapViaFlatMap[A, B](ra: Rand[A])(f: A => B): Rand[B] = flatMap(ra)(a => unit(f(a)))
+
+  // Excercise 6.9 (b)
+  def map2ViaFlatMap[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
+    flatMap(ra)(a => flatMap(rb)(b => (unit(f(a, b)))))
 }
