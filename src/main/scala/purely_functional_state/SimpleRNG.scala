@@ -10,7 +10,6 @@ import fpinscala.chapter3.lizt.Lizt
 trait RNG {
   def nextInt: (Int, RNG)
 }
-
 case class SimpleRNG(seed: Long) extends RNG {
   // Linear congruental generator
   def nextInt: (Int, RNG) = {
@@ -47,8 +46,8 @@ object RNG {
 
   // Excercise 6.3 (b)
   def doubleInt(rng: RNG): (Double, Int) = {
-    val (i, r1) = rng.nextInt
-    val (d, r2) = double(r1)
+    val (d, r1) = double(rng)
+    val (i, r2) = r1.nextInt
 
     (d, i)
   }
@@ -86,6 +85,24 @@ object RNG {
 
   def nonNegativeEven: Rand[Int] = map(nonNegativeInt)(i => i - i % 2)
 
+  def both[A, B](ra: Rand[A], rb: Rand[B]): Rand[(A, B)] = map2(ra, rb)((_, _))
+
+  def intDoubleViaMap2: Rand[(Int, Double)] = both(int, double)
+
+  def doubleIntViaMap2: Rand[(Double, Int)] = both(double, int)
+
   // Excercise 6.5
   def doubleViaMap: Rand[Double] = map(nonNegativeInt)(prependZero(_))
+
+  // Excercise 6.6
+  def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
+    val (a, _rng) = ra(rng)
+    val (b, __rng) = rb(_rng)
+
+    (f(a, b), __rng)
+  }
+
+  // Excercise 6.7
+  def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] = 
+    Lizt.foldRightViaFoldLeft(fs, unit(Lizt[A]()))((f, acc) => map2(f, acc)(Conz(_, _)))
 }
