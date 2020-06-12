@@ -1,5 +1,6 @@
 .project
 fpscala.code-workspace
+project/metals.sbt
 .classpath
 *.pdf
 
