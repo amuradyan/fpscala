@@ -72,7 +72,8 @@ object RNG {
     loop(count, (Nill: Lizt[Int], rng))
   }
 
-  type Rand[+A] = RNG => (A, RNG)
+  type Steyt[S, +A] = S => (A, S)
+  type Rand[A] = Steyt[RNG, A]
 
   val int: Rand[Int] = _.nextInt
 
@@ -104,7 +105,7 @@ object RNG {
     flatMap(nonNegativeInt)(a => {
       val mod = a % n
 
-      if (a + (n - 1) - mod >= 0)(unit(mod))
+      if (a + (n - 1) - mod >= 0) unit(mod)
       else nonNegativeLessThan(n)
     })
 
