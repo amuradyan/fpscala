@@ -40,7 +40,7 @@ object Steyt {
 
   def get[S]: Steyt[S, S] = Steyt(s => (s, s))
   
-  def set[S](a: S): Steyt[S, Unit] = Steyt(_ => ((), a))
+  def set[S](s: S): Steyt[S, Unit] = Steyt(_ => ((), s))
 
   def modify[S](f: S => S): Steyt[S, Unit] = for {
     s <- get

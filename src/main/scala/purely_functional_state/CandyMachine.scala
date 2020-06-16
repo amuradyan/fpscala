@@ -22,7 +22,15 @@ object CandyMachine {
 
   // Excercise 6.11
   def simulateMachine(inputs: Lizt[Input]): Steyt[CandyMachine, (Int, Int)] = for {
-    _ <- Steyt.sequence(Lizt.map(inputs)(Steyt.modify[CandyMachine] _ compose transition))
+    _ <- Steyt.sequence(Lizt.map(inputs){Steyt.modify[CandyMachine] _ compose transition})
     s <- Steyt.get
   } yield (s.candies, s.coins)
+
+//  Below is the implementation w/o syntax sugar and for-comprehension. It seems to 
+//  me, that this is more _understandable_ for a novice. For me it is.
+//  
+//  def simulateMachine(inputs: Lizt[Input]): Steyt[CandyMachine, (Int, Int)] =
+//    Steyt.sequence(Lizt.map(inputs)(i => Steyt.modify[CandyMachine](transition(i))))
+//      .flatMap(_ => Steyt.get
+//        .map(s => (s.candies, s.coins)))
 }
