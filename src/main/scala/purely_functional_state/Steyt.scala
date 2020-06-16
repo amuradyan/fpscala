@@ -37,4 +37,13 @@ object Steyt {
     Lizt.foldRightViaFoldLeft(sa, unit[Lizt[A], S](Nill)) { (a, acc) =>
       a.map2(acc)(Conz(_, _))
     }
+
+  def get[S]: Steyt[S, S] = Steyt(s => (s, s))
+  
+  def set[S](a: S): Steyt[S, Unit] = Steyt(_ => ((), a))
+
+  def modify[S](f: S => S): Steyt[S, Unit] = for {
+    s <- get
+    _ <- set(f(s))
+  } yield ()
 }
