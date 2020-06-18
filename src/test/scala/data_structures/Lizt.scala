@@ -2,7 +2,12 @@ package fpinscala
 package chapter3
 package tests
 
+import fpinscala.chapter3.lizt.Lizt
+import fpinscala.chapter6.simple_rng.RNG
+import fpinscala.chapter4.opshn.Sam
+import fpinscala.chapter4.opshn.Non
 import org.scalatest.matchers.should._
+import fpinscala.chapter6.simple_rng.SimpleRNG
 import org.scalatest.flatspec.AnyFlatSpec
 import lizt._
 
@@ -571,5 +576,78 @@ class Misc extends AnyFlatSpec with Matchers {
 
   "`fill`-ing a Lizt 3 times with element `8`-s" should "produce a Lizt of `8`-s of length 3" in {
     Lizt.fill(3)(8) should be (Lizt(8, 8, 8))
+  }
+
+  "`headOpshn` on Nill" should "return Non" in {
+    Lizt.headOpshn(Nill) should be (Non)
+  }
+
+  "`headOpshn` on a Lizt with elements" should "return Sam(_head_of_the_lizt_)" in {
+    val l1 = Lizt(1)
+    val l321 = Lizt(3, 2, 1)
+
+    Lizt.headOpshn(l1) should be (Sam(1))
+    Lizt.headOpshn(l321) should be (Sam(3))
+  }
+
+  val l12345 = Lizt(1, 2, 3, 4, 5)
+  val sRNG = SimpleRNG(System.currentTimeMillis())
+
+  "`take`-ing from Nill" should "be Nill, regardless of the argument" in {
+    val (i, _) = RNG.nonNegativeInt(sRNG)
+
+    Lizt.take(Nill, i) should be (Nill)
+  }
+
+  "`take`-ing 4 over Lizt(1, 2, 3, 4, 5)" should "be the Lizt(1, 2, 3, 4)" in {
+    Lizt.take(l12345, 4) should be (Lizt(1, 2, 3, 4))
+  }
+
+  "`take`-ing all from a Lizt" should "be the original Lizt" in {
+    Lizt.take(l12345, 5) should be (l12345)
+  }
+
+  "`take`-ing more than the original Lizt" should "be the original Lizt" in {
+    Lizt.take(l12345, 10) should be (l12345)
+  }
+
+  "`splitAt` on Nill at any index" should "return (Nill, Nill)" in {
+    val (i, _) = RNG.nonNegativeInt(sRNG)
+
+    Lizt.splitAt(Nill, 0) should be ((Nill, Nill))
+    Lizt.splitAt(Nill, i) should be ((Nill, Nill))
+    Lizt.splitAt(Nill, Int.MaxValue) should be ((Nill, Nill))
+  }
+
+  "`splitAt` on anything at a negative index" should "return (Nill, Nill)" in {
+    Lizt.splitAt(Nill, -1) should be ((Nill, Nill))
+    Lizt.splitAt(Lizt(1), -1) should be ((Nill, Nill))
+    Lizt.splitAt(Lizt(1, 2, 3), -1) should be ((Nill, Nill))
+  }
+
+  "`splitAt` on Lizt `l` at an index, larger than the size of l" should "result in (l, Nill)" in {
+    val l12 = Lizt(1, 2)
+
+    Lizt.splitAt(l12, 4) should be ((l12, Nill))
+  }
+
+  "`splitAt` on Lizt `l` at 0" should "result in (Nill, l)" in {
+    val l1 = Lizt(1)
+
+    Lizt.splitAt(Nill, 0) should be ((Nill, Nill))
+    Lizt.splitAt(l1, 0) should be ((Nill, l1))
+  }
+
+  "`splitAt` on Lizt of `n` elements at a _valid_ index `i`" should "result in (Lizt(1, i), Lizt(i + 1 .. n))" in {
+    val l1 = Lizt(1)
+    val l3 = Lizt(3)
+    val l12 = Lizt(1, 2)
+    val l23 = Lizt(2, 3)
+    val l123 = Lizt(1, 2, 3)
+
+    Lizt.splitAt(l123, 0) should be ((Nill, l123))
+    Lizt.splitAt(l123, 1) should be ((l1, l23))
+    Lizt.splitAt(l123, 2) should be ((l12, l3))
+    Lizt.splitAt(l123, 3) should be ((l123, Nill))
   }
 }

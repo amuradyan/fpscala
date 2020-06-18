@@ -2,6 +2,10 @@ package fpinscala
 package chapter3
 package lizt
 
+import fpinscala.chapter4.opshn.Sam
+import fpinscala.chapter4.opshn.Opshn
+import fpinscala.chapter4.opshn.Non
+
 sealed trait Lizt[+A]
 case object Nill extends Lizt[Nothing]
 case class Conz[A](head: A, tail: Lizt[A]) extends Lizt[A]
@@ -37,7 +41,27 @@ object Lizt {
 
   def product2(as: Lizt[Double]) = foldRight(as, 1.0)(_ * _)
 
+  // Needed for Strims (chapter 5)
   def fill[A](n: Int)(e: => A): Lizt[A] = if (n > 0) Conz(e, fill(n - 1)(e)) else Nill
+
+  // Needed for Par (chapter 7)
+  def headOpshn[A](as: Lizt[A]): Opshn[A] = as match {
+    case Nill             => Non
+    case Conz(head, tail) => Sam(head)
+  }
+
+  // Needed for Par (chapter 7)
+  def take[A](as: Lizt[A], n: Int): Lizt[A] = as match {
+    case Conz(head, tail) if n > 0 => Conz(head, take(tail, n - 1))
+    case _                         => Nill
+  }
+
+  // Needed for Par (chapter 7)
+  // NOTE: This is a very inefficient way of splitting, but it does what it 
+  //       is supposed to do and will suffice for the time being.
+  def splitAt[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) =
+    if (i < 0) (Nill, Nill)
+    else (Lizt.take(as, i), Lizt.drop(as, i))
 
   // Excercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {

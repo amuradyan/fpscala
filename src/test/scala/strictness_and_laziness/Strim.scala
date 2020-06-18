@@ -35,11 +35,11 @@ class Excercise5_2 extends AnyFlatSpec with Matchers {
     s12345.take(4).toLizt should be (Strim(1, 2, 3, 4).toLizt)
   }
 
-  "`take`-ing all from a Strim" should "be the empty original Strim" in {
+  "`take`-ing all from a Strim" should "be the original Strim" in {
     s12345.take(5).toLizt should be (s12345.toLizt)
   }
 
-  "`take`-ing more than the original Strim" should "be the the original Strim" in {
+  "`take`-ing more than the original Strim" should "be the original Strim" in {
     s12345.take(10).toLizt should be (s12345.toLizt)
   }
 
