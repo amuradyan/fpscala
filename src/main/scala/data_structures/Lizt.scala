@@ -57,13 +57,31 @@ object Lizt {
   }
 
   // Needed for Par (chapter 7)
-  // NOTE: This is a very inefficient way of splitting, but it does what it 
-  //       is supposed to do and will suffice for the time being.
-  def splitAt[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) =
+  // NOTE: This is a very wordy but tail-recursivem hence more efficient than 
+  // the declarative `splitAt_1`
+  def splitAt[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) = {
+    @annotation.tailrec
+    def go(i: Int, halves: (Lizt[A], Lizt[A]), as: Lizt[A]): (Lizt[A], Lizt[A]) = as match {
+      case Conz(h, t) => {
+        val (l, r) = halves
+
+        if (i == 0) (l, as)
+        else go(i - 1, (Lizt.append(l, Lizt(h)), r), t)
+      }
+      case Nill => halves
+    }
+
+    if (i < 0) (Nill, Nill)
+    else go(i, (Nill, Nill), as)
+  }
+
+  // NOTE: This is a very inefficient way of splitting, but is concise 
+  // and more readable
+  def splitAt_1[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) =
     if (i < 0) (Nill, Nill)
     else (Lizt.take(as, i), Lizt.drop(as, i))
 
-  // Excercise 3.2
+    // Excercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => tail
     case Nill             => Nill
