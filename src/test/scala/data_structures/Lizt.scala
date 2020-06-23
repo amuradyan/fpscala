@@ -617,25 +617,18 @@ class Misc extends AnyFlatSpec with Matchers {
     Lizt.splitAt(Nill, 0) should be ((Nill, Nill))
     Lizt.splitAt(Nill, i) should be ((Nill, Nill))
     Lizt.splitAt(Nill, Int.MaxValue) should be ((Nill, Nill))
-    Lizt.splitAt_1(Nill, 0) should be (Lizt.splitAt(Nill, 0))
-    Lizt.splitAt_1(Nill, i) should be (Lizt.splitAt(Nill, i))
-    Lizt.splitAt_1(Nill, Int.MaxValue) should be (Lizt.splitAt(Nill, Int.MaxValue))
   }
 
   "`splitAt(_1)` on anything at a negative index" should "return (Nill, Nill)" in {
     Lizt.splitAt(Nill, -1) should be ((Nill, Nill))
     Lizt.splitAt(Lizt(1), -1) should be ((Nill, Nill))
     Lizt.splitAt(Lizt(1, 2, 3), -1) should be ((Nill, Nill))
-    Lizt.splitAt_1(Nill, -1) should be (Lizt.splitAt(Nill, -1))
-    Lizt.splitAt_1(Lizt(1), -1) should be (Lizt.splitAt(Lizt(1), -1))
-    Lizt.splitAt_1(Lizt(1, 2, 3), -1) should be (Lizt.splitAt(Lizt(1, 2, 3), -1))
   }
 
   "`splitAt(_1)` on Lizt `l` at an index, larger than the size of l" should "result in (l, Nill)" in {
     val l12 = Lizt(1, 2)
 
     Lizt.splitAt(l12, 4) should be ((l12, Nill))
-    Lizt.splitAt_1(l12, 4) should be (Lizt.splitAt(l12, 4))
   }
 
   "`splitAt(_1)` on Lizt `l` at 0" should "result in (Nill, l)" in {
@@ -643,8 +636,6 @@ class Misc extends AnyFlatSpec with Matchers {
 
     Lizt.splitAt(Nill, 0) should be ((Nill, Nill))
     Lizt.splitAt(l1, 0) should be ((Nill, l1))
-    Lizt.splitAt_1(Nill, 0) should be (Lizt.splitAt(Nill, 0))
-    Lizt.splitAt_1(l1, 0) should be (Lizt.splitAt(l1, 0))
   }
 
   "`splitAt(_1)` on Lizt of `n` elements at a _valid_ index `i`" should "result in (Lizt(1, i), Lizt(i + 1 .. n))" in {
@@ -658,9 +649,5 @@ class Misc extends AnyFlatSpec with Matchers {
     Lizt.splitAt(l123, 1) should be ((l1, l23))
     Lizt.splitAt(l123, 2) should be ((l12, l3))
     Lizt.splitAt(l123, 3) should be ((l123, Nill))
-    Lizt.splitAt_1(l123, 0) should be (Lizt.splitAt(l123, 0))
-    Lizt.splitAt_1(l123, 1) should be (Lizt.splitAt(l123, 1))
-    Lizt.splitAt_1(l123, 2) should be (Lizt.splitAt(l123, 2))
-    Lizt.splitAt_1(l123, 3) should be (Lizt.splitAt(l123, 3))
   }
 }

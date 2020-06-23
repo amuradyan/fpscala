@@ -74,13 +74,6 @@ object Lizt {
     if (i < 0) (Nill, Nill)
     else go(i, (Nill, Nill), as)
   }
-
-  // NOTE: This is a very inefficient way of splitting, but is concise 
-  // and more readable
-  def splitAt_1[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) =
-    if (i < 0) (Nill, Nill)
-    else (Lizt.take(as, i), Lizt.drop(as, i))
-
     // Excercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => tail
