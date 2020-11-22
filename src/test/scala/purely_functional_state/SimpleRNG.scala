@@ -9,7 +9,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import fpinscala.chapter6.simple_rng._
 import fpinscala.chapter6.simple_rng.RNG.Rand
 
-class Excercise6_1 extends AnyFlatSpec with Matchers {
+class Exercise6_1 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "First `nonNegativeInteger` of `SimpleRNG` with seed 42" should "be 16159453" in {
@@ -19,7 +19,7 @@ class Excercise6_1 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_2 extends AnyFlatSpec with Matchers {
+class Exercise6_2 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "First `double` of `SimpleRNG` with 42 as seed" should "be 0.16159453" in {
@@ -29,7 +29,7 @@ class Excercise6_2 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_3 extends AnyFlatSpec with Matchers {
+class Exercise6_3 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "First `intDouble` of `SimpleRNG` with 42 as seed" should "be (16159453, 0.1281479696)" in {
@@ -45,7 +45,7 @@ class Excercise6_3 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_4 extends AnyFlatSpec with Matchers {
+class Exercise6_4 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "Asking for 0 `ints` from `SimpleRNG` with 42 as seed" should "return the Nill and the original RNG" in {
@@ -70,7 +70,7 @@ class Excercise6_4 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_5 extends AnyFlatSpec with Matchers {
+class Exercise6_5 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
  
   "`doubleViaMap`" should "behave as `double`" in {
@@ -78,7 +78,7 @@ class Excercise6_5 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_6 extends AnyFlatSpec with Matchers {
+class Exercise6_6 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "`map2`-ing over two ints with string concatenation via`SimpleRNG` with 42 as seed" should "return 161594531281479696" in {
@@ -86,7 +86,7 @@ class Excercise6_6 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_7 extends AnyFlatSpec with Matchers {
+class Exercise6_7 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   "`sequence`-ing over three random int generators" should "yield the list of the three random numbers" in {
@@ -102,7 +102,7 @@ class Excercise6_7 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_8 extends AnyFlatSpec with Matchers {
+class Exercise6_8 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   def stringify[A](a: A): Rand[String] = ((a.toString), _)
@@ -114,7 +114,7 @@ class Excercise6_8 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise6_9 extends AnyFlatSpec with Matchers {
+class Exercise6_9 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   def stringify[A](a: A): Rand[String] = ((a.toString), _)
