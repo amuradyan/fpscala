@@ -11,7 +11,7 @@ import fpinscala.chapter6.simple_rng.RNG.Rand
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.flatspec.AnyFlatSpec
 
-class Excercise6_10 extends AnyFlatSpec with Matchers {
+class Exercise6_10 extends AnyFlatSpec with Matchers {
   val sRNG = SimpleRNG(42)
 
   def prependZero(n: Int): Double = s"0.${n.toString()}".toDouble

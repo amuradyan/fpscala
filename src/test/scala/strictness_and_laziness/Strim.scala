@@ -12,7 +12,7 @@ import fpinscala.chapter3.lizt.Lizt
 import fpinscala.chapter3.lizt.Nill
 import strim._
 
-class Excercise5_1 extends AnyFlatSpec with Matchers {
+class Exercise5_1 extends AnyFlatSpec with Matchers {
   "Converting an Emptie to Lizt" should "return Nill" in {
     Emptie.toLizt should be (Nill)
     Emptie.toLiztRec should be (Nill)
@@ -24,7 +24,7 @@ class Excercise5_1 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_2 extends AnyFlatSpec with Matchers {
+class Exercise5_2 extends AnyFlatSpec with Matchers {
   val s12345 = Strim(1, 2, 3, 4, 5)
 
   "`take`-ing from an Emptie" should "be Emptie, regardless of the argument" in {
@@ -60,7 +60,7 @@ class Excercise5_2 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_3 extends AnyFlatSpec with Matchers {
+class Exercise5_3 extends AnyFlatSpec with Matchers {
   val s1234 = Strim(1, 2, 3, 4)
   val sABCD = Strim('A', 'B', 'C', 'D')
 
@@ -90,7 +90,7 @@ class Excercise5_3 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_4 extends AnyFlatSpec with Matchers {
+class Exercise5_4 extends AnyFlatSpec with Matchers {
   val isOdd = (n: Int) => (n % 2) != 0
 
   "`forAll` with any predicate over an Emptie" should "be FALSE" in {
@@ -107,7 +107,7 @@ class Excercise5_4 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_5 extends AnyFlatSpec with Matchers {
+class Exercise5_5 extends AnyFlatSpec with Matchers {
   val s1234 = Strim(1, 2, 3, 4)
   val sABCD = Strim('A', 'B', 'C', 'D')
 
@@ -137,7 +137,7 @@ class Excercise5_5 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_6 extends AnyFlatSpec with Matchers {
+class Exercise5_6 extends AnyFlatSpec with Matchers {
   "`headOpshnViaFoldRight` over Emptie" should "be Non" in {
     Emptie.headOpshnViaFoldRight should be (Non)
   }
@@ -151,7 +151,7 @@ class Excercise5_6 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_7 extends AnyFlatSpec with Matchers {
+class Exercise5_7 extends AnyFlatSpec with Matchers {
   "`map` over Emptie" should "be Emptie" in {
     Emptie.map(_ => 1) should be (Emptie)
   }
@@ -200,7 +200,7 @@ class Excercise5_7 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_8 extends AnyFlatSpec with Matchers {
+class Exercise5_8 extends AnyFlatSpec with Matchers {
   "`constant` Strim of a number" should "constantly generate that number" in {
     val a = Random.nextInt(30)
     val b = Random.nextInt(30)
@@ -214,7 +214,7 @@ class Excercise5_8 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_9 extends AnyFlatSpec with Matchers {
+class Exercise5_9 extends AnyFlatSpec with Matchers {
   "seventh element `from` 1" should "be 7" in {
     Strim.from(1).drop(6).take(1).headOpshn should be (Sam(7))
   }
@@ -224,7 +224,7 @@ class Excercise5_9 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_10 extends AnyFlatSpec with Matchers {
+class Exercise5_10 extends AnyFlatSpec with Matchers {
   "A Fibonacci Strim" should "return 0 for 0th take" in {
     Strim.fibs.take(1).headOpshn should be (Sam(0));
   }
@@ -246,7 +246,7 @@ class Excercise5_10 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_11 extends AnyFlatSpec with Matchers {
+class Exercise5_11 extends AnyFlatSpec with Matchers {
   import Strim._
 
   def ASCIIfy(s: String): Opshn[(Int, String)] = s match {
@@ -284,7 +284,7 @@ class Excercise5_11 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_12 extends AnyFlatSpec with Matchers {
+class Exercise5_12 extends AnyFlatSpec with Matchers {
   import Strim._
 
   "`fibsViaUnfold`" should "behave as `fibs`" in {
@@ -320,7 +320,7 @@ class Excercise5_12 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_13 extends AnyFlatSpec with Matchers {
+class Exercise5_13 extends AnyFlatSpec with Matchers {
   import Strim._
 
   val s12345 = Strim(1, 2, 3, 4, 5)
@@ -448,7 +448,7 @@ class Excercise5_13 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_14 extends AnyFlatSpec with Matchers {
+class Exercise5_14 extends AnyFlatSpec with Matchers {
   import Strim._
 
   "Strim(1, 2, 3)" should "`startWith` Strim (1, 2)" in {
@@ -506,7 +506,7 @@ class Excercise5_14 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_15 extends AnyFlatSpec with Matchers {
+class Exercise5_15 extends AnyFlatSpec with Matchers {
   "`tails` of Strim(1, 2, 3)" should "be Strim(Strim(1, 2, 3), Strim(1, 2), Strim(1), Strim())" in {
       val s123 = Strim(1, 2, 3)
       val tailsOfs123 = Lizt(Lizt(1, 2, 3), Lizt(2, 3), Lizt(3))
@@ -519,7 +519,7 @@ class Excercise5_15 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise5_16 extends AnyFlatSpec with Matchers {
+class Exercise5_16 extends AnyFlatSpec with Matchers {
   "`scanRight` over Emptie" should "be the zero element be Emptie" in {
     Emptie.scanRight(0){(a, b) => 1}.toLizt should be (Lizt(0))
     Emptie.scanRight("")((a, b) => "ab").toLizt should be (Lizt(""))

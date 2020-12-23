@@ -11,7 +11,7 @@ import fpinscala.chapter6.simple_rng.SimpleRNG
 import org.scalatest.flatspec.AnyFlatSpec
 import lizt._
 
-class Excercise3_2 extends AnyFlatSpec with Matchers {
+class Exercise3_2 extends AnyFlatSpec with Matchers {
   "`tail` of a lizt" should "be Nil for an empty lizt" in {
     val emptyLizt = Nill
 
@@ -31,7 +31,7 @@ class Excercise3_2 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_3 extends AnyFlatSpec with Matchers {
+class Exercise3_3 extends AnyFlatSpec with Matchers {
   "Setting 1 as head to a lizt" should "return Lizt(1) if initial lizt is empty" in {
     Lizt.setHead(1, Nill) should be (Lizt(1))
   }
@@ -45,7 +45,7 @@ class Excercise3_3 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_4 extends AnyFlatSpec with Matchers {
+class Exercise3_4 extends AnyFlatSpec with Matchers {
   "Dropping more elements than the lizt contains" should "return Nill" in {
     Lizt.drop(Lizt(1), 3) should be (Nill)
   }
@@ -79,7 +79,7 @@ class Excercise3_4 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_5 extends AnyFlatSpec with Matchers {
+class Exercise3_5 extends AnyFlatSpec with Matchers {
   "A `dropWile` over an empty lizt" should "be an empty lizt with a true filter" in {
     val allwaysTrue = (_: Nothing) => true
 
@@ -135,7 +135,7 @@ class Excercise3_5 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_6 extends AnyFlatSpec with Matchers {
+class Exercise3_6 extends AnyFlatSpec with Matchers {
   "`init` of an empty lizt" should "be an empty lizt" in {
     Lizt.init(Nill) should be (Nill)
   }
@@ -152,7 +152,7 @@ class Excercise3_6 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_9 extends AnyFlatSpec with Matchers {
+class Exercise3_9 extends AnyFlatSpec with Matchers {
   "Length of an empty lizt" should "be 0" in {
     Lizt.length(Nill) should be (0)
   }
@@ -164,7 +164,7 @@ class Excercise3_9 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_11 extends AnyFlatSpec with Matchers {
+class Exercise3_11 extends AnyFlatSpec with Matchers {
   "Sum with foldLeft" should "be 0 for empty lizts" in {
     Lizt.sumFoldl(Nill) should be (0)
   }
@@ -196,7 +196,7 @@ class Excercise3_11 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_12 extends AnyFlatSpec with Matchers {
+class Exercise3_12 extends AnyFlatSpec with Matchers {
   "Reverse of an empty lizt" should "be itself(an empty lizt)" in {
     Lizt.reverse(Nill) should be (Nill)
   }
@@ -215,7 +215,7 @@ class Excercise3_12 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_13 extends AnyFlatSpec with Matchers {
+class Exercise3_13 extends AnyFlatSpec with Matchers {
   "Lizt creation with `classical` foldLeft" should "be equivalent to foldLeftViaFoldRight" in {
     val l123 = Lizt(1, 2, 3)
     val l321 = Lizt(3, 2, 1)
@@ -235,7 +235,7 @@ class Excercise3_13 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_14 extends AnyFlatSpec with Matchers {
+class Exercise3_14 extends AnyFlatSpec with Matchers {
   "Appending an empty lizt to an empty lizt" should "result in an empty lizt" in {
     Lizt.append(Nill, Nill) should be (Nill)
   }
@@ -261,7 +261,7 @@ class Excercise3_14 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_15 extends AnyFlatSpec with Matchers {
+class Exercise3_15 extends AnyFlatSpec with Matchers {
   "Concatenation of a lizt of empty lizts" should "be an empty lizt" in {
     val loel = Lizt(Nill, Nill, Nill)
 
@@ -289,7 +289,7 @@ class Excercise3_15 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_16 extends AnyFlatSpec with Matchers {
+class Exercise3_16 extends AnyFlatSpec with Matchers {
   "`plus1` over an empty lizt" should "be an empty list" in {
     Lizt.plus1(Nill) should be (Nill)
   }
@@ -302,7 +302,7 @@ class Excercise3_16 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_17 extends AnyFlatSpec with Matchers {
+class Exercise3_17 extends AnyFlatSpec with Matchers {
   "`stringifyDoubles` over an empty lizt" should "be an empty lizt" in {
     Lizt.stringifyDoubles(Nill) should be (Nill)
   }
@@ -315,7 +315,7 @@ class Excercise3_17 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_18 extends AnyFlatSpec with Matchers {
+class Exercise3_18 extends AnyFlatSpec with Matchers {
   "`map` with adding one over a lizt of integers" should "behave as `plus1`" in {
     val l123 = Lizt(1, 2, 3)
 
@@ -329,7 +329,7 @@ class Excercise3_18 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_19 extends AnyFlatSpec with Matchers {
+class Exercise3_19 extends AnyFlatSpec with Matchers {
   "A `filter` over an empty lizt" should "be an empty lizt with a true filter" in {
     val allwaysTrue = (_: Nothing) => true
 
@@ -385,7 +385,7 @@ class Excercise3_19 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_20 extends AnyFlatSpec with Matchers {
+class Exercise3_20 extends AnyFlatSpec with Matchers {
   "`flatMap` over an empty lizt" should "be an empty lizt" in {
     Lizt.flatMap(Nill)(Lizt(_)) should be (Nill)
   }
@@ -398,7 +398,7 @@ class Excercise3_20 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_21 extends AnyFlatSpec with Matchers {
+class Exercise3_21 extends AnyFlatSpec with Matchers {
   "A `filterViaFlatMap` over an empty lizt" should "be an empty lizt with a true filter" in {
     val allwaysTrue = (_: Nothing) => true
 
@@ -454,7 +454,7 @@ class Excercise3_21 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_22 extends AnyFlatSpec with Matchers {
+class Exercise3_22 extends AnyFlatSpec with Matchers {
   "`intLiztAdder` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9)" in {
     val l123 = Lizt(1, 2, 3)
     val l456 = Lizt(4, 5, 6)
@@ -479,7 +479,7 @@ class Excercise3_22 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_23 extends AnyFlatSpec with Matchers {
+class Exercise3_23 extends AnyFlatSpec with Matchers {
   "`zipWith` with Lizt(1, 2, 3) and Lizt(4, 5, 6)" should "be Lizt(5, 7, 9) with addition as the zipping function" in {
     val l123 = Lizt(1, 2, 3)
     val l456 = Lizt(4, 5, 6)
@@ -516,7 +516,7 @@ class Excercise3_23 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_24 extends AnyFlatSpec with Matchers {
+class Exercise3_24 extends AnyFlatSpec with Matchers {
   val l123 = Lizt(1, 2, 3)
   val l1 = Lizt(1)
   val l12 = Lizt(1, 2)

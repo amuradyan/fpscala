@@ -9,7 +9,7 @@ import fpinscala.chapter6.candy_machine.CandyMachine
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class Excercise6_11 extends AnyFlatSpec with Matchers {
+class Exercise6_11 extends AnyFlatSpec with Matchers {
   val emptyLockedMachine = CandyMachine(true, 0, 10)
   val emptyUnlockedMachine = CandyMachine(false, 0, 10)
   val fullLockedMachine = CandyMachine(true, 10, 10)

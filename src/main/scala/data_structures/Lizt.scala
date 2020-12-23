@@ -74,25 +74,25 @@ object Lizt {
     if (i < 0) (Nill, Nill)
     else go(i, (Nill, Nill), as)
   }
-    // Excercise 3.2
+    // Exercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => tail
     case Nill             => Nill
   }
 
-  // Excercise 3.3
+  // Exercise 3.3
   def setHead[A](a: A, as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => Conz(a, tail)
     case Nill             => Conz(a, Nill)
   }
 
-  // Excercise 3.4
+  // Exercise 3.4
   def drop[A](as: Lizt[A], n: Int): Lizt[A] = as match {
     case Conz(head, tail) => if (n > 0) drop(tail, n - 1) else as
     case Nill             => Nill
   }
 
-  // Excercise 3.5
+  // Exercise 3.5
   def dropWhile[A](as: Lizt[A])(f: A => Boolean): Lizt[A] = as match {
     case Conz(head, tail) =>
       if (f(head)) dropWhile(tail)(f)
@@ -100,86 +100,86 @@ object Lizt {
     case Nill => Nill
   }
 
-  // Excercise 3.6
+  // Exercise 3.6
   def init[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(last, Nill) => Nill
     case Conz(head, tail) => Conz(head, init(tail))
     case Nill             => Nill
   }
 
-  // Excercise 3.9
+  // Exercise 3.9
   def length[A](as: Lizt[A]): Int = foldRight(as, 0)((a, b) => b + 1)
 
-  // Excercise 3.10
+  // Exercise 3.10
   @annotation.tailrec
   def foldLeft[A, B](as: Lizt[A], z: B)(f: (B, A) => B): B = as match {
     case Conz(head, tail) => foldLeft(tail, f(z, head))(f)
     case Nill             => z
   }
 
-  // Excercise 3.11 (a)
+  // Exercise 3.11 (a)
   def sumFoldl(as: Lizt[Int]) = foldLeft(as, 0)(_ + _)
-  // Excercise 3.11 (b)
+  // Exercise 3.11 (b)
   def productFoldl(as: Lizt[Double]) = foldLeft(as, 1.0)(_ * _)
-  // Excercise 3.11 (c)
+  // Exercise 3.11 (c)
   def lengthFoldl[A](as: Lizt[A]) = foldLeft(as, 0)((acc, _) => acc + 1)
 
-  // Excercise 3.12
+  // Exercise 3.12
   def reverse[A](as: Lizt[A]) = foldLeft(as, Nill: Lizt[A])((l, e) => Conz(e, l))
 
-  // Excercise 3.13 (a)
+  // Exercise 3.13 (a)
   def foldLeftViaFoldRight[A, B](as: Lizt[A], z: B)(f: (B, A) => B): B =
     foldRight(reverse(as), z)((a, b) => f(b, a))
-  // Excercise 3.13 (b)
+  // Exercise 3.13 (b)
   def foldRightViaFoldLeft[A, B](as: Lizt[A], z: B)(f: (A, B) => B): B =
     foldLeft(reverse(as), z)((a, b) => f(b, a))
 
-  // Excercise 3.14
+  // Exercise 3.14
   def append2[A](as: Lizt[A], bs: Lizt[A]): Lizt[A] = foldRight(bs, as)(Conz(_, _))
 
-  // Excercise 3.15
+  // Exercise 3.15
   def concat[A](lol: Lizt[Lizt[A]]): Lizt[A] = foldRightViaFoldLeft(lol, Nill: Lizt[A])(append)
 
-  // Excercise 3.16
+  // Exercise 3.16
   def plus1(is: Lizt[Int]): Lizt[Int] =
     foldRightViaFoldLeft(is, Nill: Lizt[Int])((i, acc) => Conz(i + 1, acc))
 
-  // Excercise 3.17
+  // Exercise 3.17
   def stringifyDoubles(ds: Lizt[Double]): Lizt[String] =
     foldRightViaFoldLeft(ds, Nill: Lizt[String])((d, acc) => Conz(d.toString, acc))
 
-  // Excercise 3.18
+  // Exercise 3.18
   def map[A, B](as: Lizt[A])(f: A => B): Lizt[B] =
     foldRightViaFoldLeft(as, Nill: Lizt[B])((h, acc) => Conz(f(h), acc))
 
-  // Excercise 3.19
+  // Exercise 3.19
   def filter[A](as: Lizt[A])(f: A => Boolean): Lizt[A] =
     foldRightViaFoldLeft(as, Nill: Lizt[A])((h, acc) => if (f(h)) Conz(h, acc) else acc)
 
-  // Excercise 3.20
+  // Exercise 3.20
   def flatMap[A, B](as: Lizt[A])(f: A => Lizt[B]): Lizt[B] =
     foldRightViaFoldLeft(as, Nill: Lizt[B])((h, acc) => append(f(h), acc))
 
   def flatMapViaConcatAndMap[A, B](as: Lizt[A])(f: A => Lizt[B]): Lizt[B] = concat(map(as)(f))
 
-  // Excercise 3.21
+  // Exercise 3.21
   def filterViaFlatMap[A](as: Lizt[A])(f: A => Boolean): Lizt[A] =
     flatMap(as)(a => if (f(a)) Lizt(a) else Nill)
 
-  // Excercise 3.22
+  // Exercise 3.22
   def intLiztAdder(as: Lizt[Int], bs: Lizt[Int]): Lizt[Int] = (as, bs) match {
     case (_, Nill)                    => Nill
     case (Nill, _)                    => Nill
     case (Conz(ah, at), Conz(bh, bt)) => Conz(ah + bh, intLiztAdder(at, bt))
   }
 
-  // Excercise 3.23
+  // Exercise 3.23
   def zipWith[A](as: Lizt[A], bs: Lizt[A])(f: (A, A) => A): Lizt[A] = (as, bs) match {
     case (Conz(ah, at), Conz(bh, bt)) => Conz(f(ah, bh), zipWith(at, bt)(f))
     case _                            => Nill
   }
 
-  // Excercise 3.24
+  // Exercise 3.24
   @annotation.tailrec
   def startsWith[A](sup: Lizt[A], sub: Lizt[A]): Boolean = (sup, sub) match {
     case (_, Nill) => true

@@ -8,7 +8,7 @@ import fpinscala.chapter4.eether.Lepht
 import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 
-class Excercise4_6 extends AnyFlatSpec with Matchers {
+class Exercise4_6 extends AnyFlatSpec with Matchers {
   import fpinscala.chapter4.eether.Eether._
 
   val ex = new Exception("Something went terribly wrong")
@@ -68,7 +68,7 @@ class Excercise4_6 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise4_7 extends AnyFlatSpec with Matchers {
+class Exercise4_7 extends AnyFlatSpec with Matchers {
   import eether.Eether._
 
   "`sequence` over a Lizt" should "return the leftmost Lept is such exists" in {

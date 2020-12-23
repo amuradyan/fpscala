@@ -5,7 +5,7 @@ object Chapter2 {
 
   def partial[A, B, C](a: A, f: (A, B) => C): B => C = b => f(a, b)
 
-  // Excercise 2.1
+  // Exercise 2.1
   def Fib(n: Int): Int = {
     @annotation.tailrec
     def loop(a: Int, b: Int, step: Int): Int = {
@@ -17,7 +17,7 @@ object Chapter2 {
     else loop(0, 1, n)
   }
 
-  // Excercise 2.2
+  // Exercise 2.2
   def isSorted[A](as: Array[A], ord: (A, A) => Boolean): Boolean = {
     @annotation.tailrec
     def loop(idx: Int): Boolean = {
@@ -30,12 +30,12 @@ object Chapter2 {
     else loop(0)
   }
 
-  // Excercise 2.3
+  // Exercise 2.3
   def curry[A, B, C](f: (A, B) => C): A => B => C = a => partial(a, f)
 
-  // Excercise 2.4
+  // Exercise 2.4
   def uncurry[A, B, C](f: A => B => C): (A, B) => C = (a, b) => f(a)(b)
 
-  // Excercise 2.5
+  // Exercise 2.5
   def compose[A, B, C](f: B => C, g: A => B): A => C = a => f(g(a))
 }

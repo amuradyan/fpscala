@@ -23,20 +23,20 @@ case class SimpleRNG(seed: Long) extends RNG {
 object RNG {
   def prependZero(n: Int): Double = s"0.${n.toString()}".toDouble
 
-  // Excercise 6.1
+  // Exercise 6.1
   def nonNegativeInt(rng: RNG): (Int, RNG) = {
     val (n, rng1) = rng.nextInt
     if (n < 0) (-(n + 1), rng1) else (n, rng1)
   }
 
-  // Excercise 6.2
+  // Exercise 6.2
   def double(rng: RNG): (Double, RNG) = {
 
     val (n, r) = nonNegativeInt(rng);
     (prependZero(n), r)
   }
 
-  // Excercise 6.3 (a)
+  // Exercise 6.3 (a)
   def intDouble(rng: RNG): (Int, Double) = {
     val (i, r1) = rng.nextInt
     val (d, r2) = double(r1)
@@ -44,7 +44,7 @@ object RNG {
     (i, d)
   }
 
-  // Excercise 6.3 (b)
+  // Exercise 6.3 (b)
   def doubleInt(rng: RNG): (Double, Int) = {
     val (d, r1) = double(rng)
     val (i, r2) = r1.nextInt
@@ -52,7 +52,7 @@ object RNG {
     (d, i)
   }
 
-  // Excercise 6.3 (c)
+  // Exercise 6.3 (c)
   def double3(rng: RNG): (Double, Double, Double) = {
     val (d1, r1) = double(rng)
     val (d2, r2) = double(r1)
@@ -61,7 +61,7 @@ object RNG {
     (d1, d2, d3)
   }
 
-  // Excercise 6.4
+  // Exercise 6.4
   def ints(count: Int)(rng: RNG): (Lizt[Int], RNG) = {
     @annotation.tailrec
     def loop(c: Int, s: (Lizt[Int], RNG)): (Lizt[Int], RNG) = {
@@ -111,10 +111,10 @@ object RNG {
 
   def rollDie: Rand[Int] = map(nonNegativeLessThanViaFlatMap(6))(_ + 1)
 
-  // Excercise 6.5
+  // Exercise 6.5
   def doubleViaMap: Rand[Double] = map(nonNegativeInt)(prependZero(_))
 
-  // Excercise 6.6
+  // Exercise 6.6
   def map2[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] = rng => {
     val (a, _rng) = ra(rng)
     val (b, __rng) = rb(_rng)
@@ -122,20 +122,20 @@ object RNG {
     (f(a, b), __rng)
   }
 
-  // Excercise 6.7
+  // Exercise 6.7
   def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] =
     Lizt.foldRightViaFoldLeft(fs, unit(Lizt[A]()))((f, acc) => map2(f, acc)(Conz(_, _)))
 
-  //Excercise 6.8
+  //Exercise 6.8
   def flatMap[A, B](ra: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
     val (a, _r) = ra(rng)
     g(a)(_r)
   }
 
-  // Excercise 6.9 (a)
+  // Exercise 6.9 (a)
   def mapViaFlatMap[A, B](ra: Rand[A])(f: A => B): Rand[B] = flatMap(ra)(a => unit(f(a)))
 
-  // Excercise 6.9 (b)
+  // Exercise 6.9 (b)
   def map2ViaFlatMap[A, B, C](ra: Rand[A], rb: Rand[B])(f: (A, B) => C): Rand[C] =
     flatMap(ra)(a => flatMap(rb)(b => (unit(f(a, b)))))
 }

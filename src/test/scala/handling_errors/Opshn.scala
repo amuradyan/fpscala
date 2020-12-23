@@ -9,7 +9,7 @@ import opshn.Opshn._
 import fpinscala.chapter3.lizt._
 import scala.util.Random
 
-class Excercise4_1 extends AnyFlatSpec with Matchers {
+class Exercise4_1 extends AnyFlatSpec with Matchers {
   def invert(a: Int): Opshn[Double] = a match {
     case 0 => Non
     case _ => Sam(1.0 / a)
@@ -83,7 +83,7 @@ class Excercise4_1 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise4_2 extends AnyFlatSpec with Matchers {
+class Exercise4_2 extends AnyFlatSpec with Matchers {
   "Variance of [1.1, 2.2, 3.3]" should "be Sam(v)" in {
     val s123 = Seq(1.1, 2.2, 3.3)
 
@@ -101,7 +101,7 @@ class Excercise4_2 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise4_3 extends AnyFlatSpec with Matchers {
+class Exercise4_3 extends AnyFlatSpec with Matchers {
   "`map2` over a (Non, Sam(1)) and an adder" should "result in Non" in {
     map2(Non: Opshn[Int], Sam(1))(_ + _) should be (Non)
     map2_2(Non: Opshn[Int], Sam(1))(_ + _) should be (Non)
@@ -118,7 +118,7 @@ class Excercise4_3 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise4_4 extends AnyFlatSpec with Matchers {
+class Exercise4_4 extends AnyFlatSpec with Matchers {
   "`sequence` over any Lizt containing a Non" should "be Non" in {
     sequence(Lizt(Non)) should be (Non)
     sequence(Lizt(Non, Sam(2))) should be (Non)
@@ -159,7 +159,7 @@ class Excercise4_4 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise4_5 extends AnyFlatSpec with Matchers {
+class Exercise4_5 extends AnyFlatSpec with Matchers {
   "`traverse` over a Lizt via indentity" should "behave as `sequence`" in {
     traverse(Lizt(Non))(a => a) should be (sequence(Lizt(Non)))
     traverse(Lizt(Non, Sam(2)))(a => a) should be (sequence(Lizt(Non, Sam(2))))

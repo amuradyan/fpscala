@@ -6,7 +6,7 @@ import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import scala.util.Random
 
-class Excercise2_1 extends AnyFlatSpec with Matchers {
+class Exercise2_1 extends AnyFlatSpec with Matchers {
   "A Fibonacci calculator" should "return 0 for negative indicies" in {
     val idx = Random.nextInt(100)
     Chapter2.Fib(-idx) should be (0);
@@ -37,7 +37,7 @@ class Excercise2_1 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise2_2 extends AnyFlatSpec with Matchers {
+class Exercise2_2 extends AnyFlatSpec with Matchers {
   val emptyArray = Array.empty[Int]
   val singleElementArray = Array(1)
   val ascArray = Array(1, 2, 3, 4)

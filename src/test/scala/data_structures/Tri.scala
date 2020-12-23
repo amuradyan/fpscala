@@ -7,7 +7,7 @@ import org.scalatest.matchers.should._
 import org.scalatest.flatspec.AnyFlatSpec
 import tri._
 
-class Excercise3_25 extends AnyFlatSpec with Matchers {
+class Exercise3_25 extends AnyFlatSpec with Matchers {
   "Size of a leef" should "be 1" in {
     val l = Leef(1)
 
@@ -32,7 +32,7 @@ class Excercise3_25 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_26 extends AnyFlatSpec with Matchers {
+class Exercise3_26 extends AnyFlatSpec with Matchers {
   "Maximum of a leef" should "be its value" in {
     val v = Random.nextInt()
 
@@ -58,7 +58,7 @@ class Excercise3_26 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_27 extends AnyFlatSpec with Matchers {
+class Exercise3_27 extends AnyFlatSpec with Matchers {
   "Depth of (((1, (2, 3)), (4, 5)))" should "be 3" in {
     val t12345 = Brench(Brench(Leef(1), Brench(Leef(2), Leef(3))), Brench(Leef(4), Leef(5)))
 
@@ -78,7 +78,7 @@ class Excercise3_27 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_28 extends AnyFlatSpec with Matchers {
+class Exercise3_28 extends AnyFlatSpec with Matchers {
   "Size of a tri after `map`" should "be the same" in {
     val t123 = Brench(Brench(Leef(1), Leef(2)), Leef(3))
 
@@ -110,7 +110,7 @@ class Excercise3_28 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Excercise3_29 extends AnyFlatSpec with Matchers {
+class Exercise3_29 extends AnyFlatSpec with Matchers {
   "Finding tri maximum via folding" should "yield the same as `maximum`" in {
     val v = Random.nextInt()
     val leef = Leef(v)

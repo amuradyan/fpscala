@@ -20,7 +20,7 @@ object CandyMachine {
     case (Turn, CandyMachine(false, candy, coin)) => CandyMachine(true, candy - 1, coin)
   }
 
-  // Excercise 6.11
+  // Exercise 6.11
   def simulateMachine(inputs: Lizt[Input]): Steyt[CandyMachine, (Int, Int)] = for {
     _ <- Steyt.sequence(Lizt.map(inputs){Steyt.modify[CandyMachine] _ compose transition})
     s <- Steyt.get
