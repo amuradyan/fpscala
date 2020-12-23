@@ -1,7 +1,6 @@
-ThisBuild / scalaVersion := "2.13.1"
+ThisBuild / scalaVersion := "2.13.4"
 ThisBuild / organization := "am.dekanat"
 ThisBuild / name := "FP in Scala"
-
 
 lazy val hello = (project in file("."))
   .settings(
@@ -9,4 +8,3 @@ lazy val hello = (project in file("."))
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.1.1" % Test,
     parallelExecution in Test := false
   )
-  
