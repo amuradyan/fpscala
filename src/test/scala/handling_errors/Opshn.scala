@@ -15,37 +15,37 @@ class Exercise4_1 extends AnyFlatSpec with Matchers {
     case _ => Sam(1.0 / a)
   }
 
-  "`map` over an Opshn" should "be Nan if the initial value is Nan" in {
+  "`map` over an Opshn" should "be Non if the initial value is Non" in {
     val n: Opshn[Int] = Non
 
     n.map(_ + 1) should be (Non)
   }
 
-  it should "be Sam value if the initial value is not Nan" in {
+  it should "be Sam value if the initial value is not Non" in {
     val s  = Sam(2)
 
     s.map(_ + 1) should be (Sam(3))
   }
 
-  "`flatMap` over an Opshn" should "be Nan if the initial value is Nan" in {
+  "`flatMap` over an Opshn" should "be Non if the initial value is Non" in {
     val n: Opshn[Int] = Non
 
     n.flatMap(invert) should be (Non)
   }
 
-  it should "be Nan if the mapping function fails" in {
+  it should "be Non if the mapping function fails" in {
     val s  = Sam(0)
 
     s.flatMap(invert) should be (Non)
   }
 
-  it should "be Sam value if the initial value is not Nan and the mapping function succeeds" in {
+  it should "be Sam value if the initial value is not Non and the mapping function succeeds" in {
     val s  = Sam(2)
 
     s.flatMap(invert) should be (Sam(0.5))
   }
 
-  "`getOrElse`" should "return the default value for Nan" in {
+  "`getOrElse`" should "return the default value for Non" in {
     Non.getOrElse(1) should be (1)
   }
 
@@ -53,7 +53,7 @@ class Exercise4_1 extends AnyFlatSpec with Matchers {
     Sam(2).getOrElse(1) should be (2)
   }
   
-  "`orElse`" should "return the default Opshn for Nan" in {
+  "`orElse`" should "return the default Opshn for Non" in {
     Non.orElse(Sam(1)) should be (Sam(1))
     Non.orElse(Non) should be (Non)
   }
@@ -71,13 +71,13 @@ class Exercise4_1 extends AnyFlatSpec with Matchers {
     v.filter(_ == 2) should be (v)
   }
 
-  it should "return Nan if does not satisfy the filtering function" in {
+  it should "return Non if does not satisfy the filtering function" in {
     val v  = Sam(2)
 
     v.filter(_ != 2) should be (Non)
   }
 
-  "`filter` over Nan" should "reurn Nan regardles of the filtering function" in {
+  "`filter` over Non" should "return Non regardless of the filtering function" in {
     Non.filter(_ => true) should be (Non)
     Non.filter(_ => false) should be (Non)
   }
@@ -160,7 +160,7 @@ class Exercise4_4 extends AnyFlatSpec with Matchers {
 }
 
 class Exercise4_5 extends AnyFlatSpec with Matchers {
-  "`traverse` over a Lizt via indentity" should "behave as `sequence`" in {
+  "`traverse` over a Lizt via identity" should "behave as `sequence`" in {
     traverse(Lizt(Non))(a => a) should be (sequence(Lizt(Non)))
     traverse(Lizt(Non, Sam(2)))(a => a) should be (sequence(Lizt(Non, Sam(2))))
     traverse(Lizt(Sam(2), Non))(a => a) should be (sequence(Lizt(Sam(2), Non)))
