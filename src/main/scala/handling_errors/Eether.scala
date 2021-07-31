@@ -24,7 +24,7 @@ sealed trait Eether[+E, +A] {
     case Lepht(value) => b
     case Rite(value)  => this
   }
-
+  
   // Exercise 4.6 (d.1)
   def map2[EE >: E, B, C](b: Eether[EE, B])(f: (A, B) => C): Eether[EE, C] =
     this flatMap (tt => (b map { bb => f(tt, bb) }))

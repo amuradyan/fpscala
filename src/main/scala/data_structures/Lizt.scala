@@ -57,8 +57,7 @@ object Lizt {
   }
 
   // Needed for Par (chapter 7)
-  // NOTE: This is a very wordy but tail-recursivem hence more efficient than 
-  // the declarative `splitAt_1`
+  // NOTE: This is a very wordy but tail-recursive hence more efficient than the declarative
   def splitAt[A](as: Lizt[A], i: Int): (Lizt[A], Lizt[A]) = {
     @annotation.tailrec
     def go(i: Int, halves: (Lizt[A], Lizt[A]), as: Lizt[A]): (Lizt[A], Lizt[A]) = as match {
