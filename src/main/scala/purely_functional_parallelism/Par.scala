@@ -36,8 +36,11 @@ object Par {
       val af = pa(es)
       val bf = pb(es)
 
-      UnitFuture(f(af.get(), bf.get()))
+      UnitFuture(f(af.get( ), bf.get()))
     }
+
+  // Exercise 7.4
+  def asyncF[A, B](f: A => B): A => Par[B] = (a: A) => Par.lazyUnit(f(a))
 
   def sum(ints: Lizt[Int]): Par[Int] = {
     val length = Lizt.length(ints)

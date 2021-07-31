@@ -11,8 +11,10 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.LinkedBlockingQueue
 import fpinscala.chapter3.lizt.Lizt
 import fpinscala.chapter3.lizt.Nill
+import fpinscala.chapter4.eether.Eether
+import fpinscala.chapter4.opshn.Opshn
 
-class Exercise7_1 extends AnyFlatSpec with Matchers {
+class Exercise7_3 extends AnyFlatSpec with Matchers {
   val es = new ThreadPoolExecutor(
     1, 
     1, 
@@ -48,5 +50,39 @@ class Exercise7_1 extends AnyFlatSpec with Matchers {
     val sum = Par.sum(Lizt(1, 1, 1))
 
     Par.run(es)(sum).get should equal(3)
+  }
+}
+
+class Exercise7_4 extends AnyFlatSpec with Matchers {
+  val es = new ThreadPoolExecutor(
+    1,
+    1,
+    0L,
+    TimeUnit.MILLISECONDS,
+    new LinkedBlockingQueue[Runnable]());
+
+  "The identity function " should "perform the same both async and blocking" in {
+    val id = (v: Int) => v
+    val asyncId = Par.asyncF(id)
+
+    Par.run(es)(asyncId(2)).get should equal(id(2))
+  }
+
+  "Lizt.sum over Lizt(1, 2, 3) " should "perform the same both async and blocking" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Par.run(es)(Par.asyncF(Lizt.sum)(l123)).get should equal(Lizt.sum(l123))
+  }
+
+  "Eether.mean over Lizt(1, 2, 3) " should "perform the same both async and blocking" in {
+    val l123 = Lizt(1, 2, 3)
+
+    Par.run(es)(Par.asyncF(Eether.mean)(l123)).get should equal(Eether.mean(l123))
+  }
+
+  "Opshn.variance over Seq(1.0, 2.0, 3.0) " should "perform the same both async and blocking" in {
+    val s123 = Seq(1.0, 2.0, 3.0)
+
+    Par.run(es)(Par.asyncF(Opshn.variance)(s123)).get should equal(Opshn.variance(s123))
   }
 }
