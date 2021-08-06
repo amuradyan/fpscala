@@ -13,6 +13,8 @@ import fpinscala.chapter3.lizt.Lizt
 import fpinscala.chapter3.lizt.Nill
 import fpinscala.chapter4.eether.Eether
 import fpinscala.chapter4.opshn.Opshn
+import fpinscala.chapter4.eether.Lepht
+import fpinscala.chapter4.eether.Rite
 
 class Exercise7_3 extends AnyFlatSpec with Matchers {
   val es = new ThreadPoolExecutor(
@@ -52,6 +54,39 @@ class Exercise7_3 extends AnyFlatSpec with Matchers {
     Par.run(es)(sum).get should equal(3)
   }
 }
+
+class Exercise7_3_Respecting_Timeouts extends AnyFlatSpec with Matchers {
+  import fpinscala.chapter4.eether.Eether._
+
+  val es = new ThreadPoolExecutor(
+    1,
+    1,
+    0L,
+    TimeUnit.MILLISECONDS,
+    new LinkedBlockingQueue[Runnable]());
+
+    "Par task " should " fail, if the timeout is exceeded" in {
+      def sleepTwoSecs = (v: Int) => {Thread.sleep(1001); v}
+      def sleepASec = (v: Int) => {Thread.sleep(1000); v}
+      def sleepTwoSecsAsync = Par.asyncF(sleepTwoSecs)
+      def sleepASecAsync = Par.asyncF(sleepASec)
+      
+      val pm2 = Par.map2(sleepASecAsync(1), sleepTwoSecsAsync(1))(_ + _)
+
+      Try(Par.run(es)(pm2).get(2000, TimeUnit.MILLISECONDS)).orElse(Rite(-1)) should be (Rite(-1))
+    }
+
+    "Par task " should " succeed, if the timeout is not exceeded" in {
+      def sleepTwoSecs = (v: Int) => {Thread.sleep(1); v}
+      def sleepASec = (v: Int) => {Thread.sleep(1000); v}
+      def sleepTwoSecsAsync = Par.asyncF(sleepTwoSecs)
+      def sleepASecAsync = Par.asyncF(sleepASec)
+      
+      val pm2 = Par.map2(sleepASecAsync(1), sleepTwoSecsAsync(1))(_ + _)
+
+      Try(Par.run(es)(pm2).get(2000, TimeUnit.MILLISECONDS)).orElse(Rite(-1)) should be (Rite(2))
+    }
+  }
 
 class Exercise7_4 extends AnyFlatSpec with Matchers {
   val es = new ThreadPoolExecutor(

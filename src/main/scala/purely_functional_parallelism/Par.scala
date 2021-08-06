@@ -7,6 +7,9 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.Callable
+import fpinscala.chapter4.opshn.Opshn
+import fpinscala.chapter4.opshn.Non
+import fpinscala.chapter4.opshn.Sam
 
 object Par {
   type Par[A] = ExecutorService => Future[A]
@@ -33,10 +36,35 @@ object Par {
   // Exercise 7.1
   def map2[A, B, C](pa: Par[A], pb: Par[B])(f: (A, B) => C): Par[C] =
     (es: ExecutorService) => {
-      val af = pa(es)
-      val bf = pb(es)
+      val (af, bf) = (pa(es), pb(es))
 
-      UnitFuture(f(af.get( ), bf.get()))
+      // This implementation does not respect timeouts.
+      // UnitFuture(f(af.get( ), bf.get()))
+      
+      Map2Future(af, bf, f)
+    }
+
+    // Exercise 7.3
+    private case class Map2Future[A, B, C](fa: Future[A], fb: Future[B], f: (A, B) => C) extends Future[C] {
+      @volatile var cache: Opshn[C] = Non
+      def isDone: Boolean = !cache.isEmpty
+      def isCancelled(): Boolean = fa.isCancelled() || fb.isCancelled()
+      def cancel(evenIfRunning: Boolean): Boolean = fa.cancel(evenIfRunning) || fb.cancel(evenIfRunning)
+      def get(): C = compute(Long.MaxValue)
+      def get(timeout: Long, unit: TimeUnit): C = compute(TimeUnit.NANOSECONDS.convert(timeout, unit))
+
+      def compute(timeout:Long): C = cache match {
+        case Sam(value) => value
+        case Non => {
+          val faStartTime = System.nanoTime
+          val a = fa.get(timeout, TimeUnit.NANOSECONDS)
+          val faDuration = System.nanoTime - faStartTime
+          val b = fb.get(timeout - faDuration, TimeUnit.NANOSECONDS)
+          val res = f(a, b)
+          cache = Sam(res)
+          res
+        }
+      }
     }
 
   // Exercise 7.4
