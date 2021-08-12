@@ -96,4 +96,7 @@ object Par {
 
   def map[A, B](pA: Par[A])(f: A => B): Par[B] = 
     map2(pA, Par.unit(()))((a, _) => f(a))
+
+  def sortPar(parList: Par[Lizt[Int]])(f: (Int, Int) => Boolean): Par[Lizt[Int]] =
+    map2(parList, unit())((a, _) => Lizt.sort(a)(f))
 }

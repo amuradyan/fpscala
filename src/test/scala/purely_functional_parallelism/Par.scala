@@ -150,3 +150,35 @@ class TestingMap extends AnyFlatSpec with Matchers with ES {
     Par.run(es)(size).get should equal(1)
   }
 }
+
+class SortPar extends AnyFlatSpec with Matchers with ES {
+  "`sortPar` on empty Lizt" should "return an empty Lizt" in {
+    val l = Par.unit(Lizt[Int]())
+    val sorted = Par.sortPar(l)((_, _) => true)
+
+    Par.run(es)(sorted).get should be(Lizt[Int]())
+  }
+
+  "An ascending `sortPar` on a Lizt(1, 3, 2)" should "return the Lizt(1, 2, 3)" in {
+    val l132 = Par.unit(Lizt(1, 3, 2))
+    val sorted = Par.sortPar(l132)(_ < _)
+    
+    Par.run(es)(sorted).get should be(Lizt(1, 2, 3))
+  }
+
+  "An descending `sortPar` on a Lizt(1, 3, 2)" should "return the Lizt(3, 2, 1)" in {
+    val l132 = Par.unit(Lizt(1, 3, 2))
+    val sorted = Par.sortPar(l132)(_ > _)
+    
+    Par.run(es)(sorted).get should be(Lizt(3, 2, 1))
+  }
+
+  "`sortPar` on Lizt(1, 1, 1)" should "return an empty Lizt(1, 1, 1) with any filter" in {
+    val l1 = Par.unit(Lizt(1, 1, 1))
+    val sortedTrue = Par.sortPar(l1)((_, _) => true)
+    val sortedFalse = Par.sortPar(l1)((_, _) => false)
+
+    Par.run(es)(sortedTrue).get should be(Lizt(1, 1, 1))
+    Par.run(es)(sortedFalse).get should be(Lizt(1, 1, 1))
+  }
+}
