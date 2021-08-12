@@ -16,13 +16,16 @@ import fpinscala.chapter4.opshn.Opshn
 import fpinscala.chapter4.eether.Lepht
 import fpinscala.chapter4.eether.Rite
 
-class Exercise7_3 extends AnyFlatSpec with Matchers {
+trait ES {
   val es = new ThreadPoolExecutor(
     1, 
     1, 
     0L, 
     TimeUnit.MILLISECONDS, 
-    new LinkedBlockingQueue[Runnable]());
+    new LinkedBlockingQueue[Runnable]());  
+}
+
+class Exercise7_3 extends AnyFlatSpec with Matchers with ES {
 
   "Par.map2 over two Par.unit(1)-s with addition " should "be 2" in {
     val pm2 = Par.map2(Par.unit(1), Par.unit(1))(_ + _)
@@ -55,15 +58,8 @@ class Exercise7_3 extends AnyFlatSpec with Matchers {
   }
 }
 
-class Exercise7_3_Respecting_Timeouts extends AnyFlatSpec with Matchers {
+class Exercise7_3_Respecting_Timeouts extends AnyFlatSpec with Matchers with ES {
   import fpinscala.chapter4.eether.Eether._
-
-  val es = new ThreadPoolExecutor(
-    1,
-    1,
-    0L,
-    TimeUnit.MILLISECONDS,
-    new LinkedBlockingQueue[Runnable]());
 
     "Par task " should " fail, if the timeout is exceeded" in {
       def sleepTwoSecs = (v: Int) => {Thread.sleep(1001); v}
@@ -88,13 +84,7 @@ class Exercise7_3_Respecting_Timeouts extends AnyFlatSpec with Matchers {
     }
   }
 
-class Exercise7_4 extends AnyFlatSpec with Matchers {
-  val es = new ThreadPoolExecutor(
-    1,
-    1,
-    0L,
-    TimeUnit.MILLISECONDS,
-    new LinkedBlockingQueue[Runnable]());
+class Exercise7_4 extends AnyFlatSpec with Matchers with ES {
 
   "The identity function " should "perform the same both async and blocking" in {
     val id = (v: Int) => v
