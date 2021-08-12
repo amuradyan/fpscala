@@ -37,6 +37,12 @@ object Lizt {
     case Nill             => z
   }
 
+  def toList[A](as: Lizt[A]): List[A] = foldRight(as, List[A]())((e, acc) => e :: acc)
+
+  def fromList[A](as: List[A]): Lizt[A] = as.foldRight(Lizt[A]())((e, acc) => Conz(e, acc))
+
+  def sort(as: Lizt[Int])(f: (Int, Int) => Boolean): Lizt[Int] = fromList(toList(as).sortWith(f))
+
   def sum2(as: Lizt[Int]) = foldRight(as, 0)((a, b) => a + b)
 
   def product2(as: Lizt[Double]) = foldRight(as, 1.0)(_ * _)

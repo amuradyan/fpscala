@@ -290,7 +290,7 @@ class Exercise3_15 extends AnyFlatSpec with Matchers {
 }
 
 class Exercise3_16 extends AnyFlatSpec with Matchers {
-  "`plus1` over an empty lizt" should "be an empty list" in {
+  "`plus1` over an empty lizt" should "be an empty lizt" in {
     Lizt.plus1(Nill) should be (Nill)
   }
 
@@ -649,5 +649,51 @@ class Misc extends AnyFlatSpec with Matchers {
     Lizt.splitAt(l123, 1) should be ((l1, l23))
     Lizt.splitAt(l123, 2) should be ((l12, l3))
     Lizt.splitAt(l123, 3) should be ((l123, Nill))
+  }
+}
+
+class toListConversion extends AnyFlatSpec with Matchers {
+    "toList(Lizt(1, 2, 3))" should "be List(1, 2, 3)" in {
+    val l123 = Lizt(1, 2, 3)
+    Lizt.toList(l123) should be (List(1, 2, 3))
+  }
+
+  "toList(Nill)" should "be Nil" in {
+    Lizt.toList(Nill) should be (Nil)
+  }
+
+  "toList(Lizt(1))" should "be List(1)" in {
+    Lizt.toList(Lizt(1)) should be (List(1))
+  }
+}
+
+class fromListConversion extends AnyFlatSpec with Matchers {
+  "fromList(List(1, 2, 3))" should "be Lizt(1, 2, 3)" in {
+    val l123 = List(1, 2, 3)
+    Lizt.fromList(l123) should be (Lizt(1, 2, 3))
+  }
+
+  "fromList(Nil)" should "be Nill" in {
+    Lizt.fromList(Nil) should be (Nill)
+  }
+
+  "fromList(List(1))" should "be Lizt(1)" in {
+    Lizt.fromList(List(1)) should be (Lizt(1))
+  }
+}
+
+class Sort extends AnyFlatSpec with Matchers {
+  "`sort` on Nill" should "return Nill" in {
+    Lizt.sort(Nill)((_, _) => true) should be (Nill)
+  }
+
+  "An ascending `sort` on a Lizt(1, 3, 2)" should "return the Lizt(1, 2, 3)" in {
+    val l123 = Lizt(1, 3, 2)
+    Lizt.sort(l123)(_ < _) should be (Lizt(1, 2, 3))
+  }
+
+  "An descending `sort` on a Lizt(1, 3, 2)" should "return the Lizt(1, 2, 3)" in {
+    val l123 = Lizt(1, 3, 2)
+    Lizt.sort(l123)(_ > _) should be (Lizt(3, 2, 1))
   }
 }
