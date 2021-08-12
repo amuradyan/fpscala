@@ -93,4 +93,7 @@ object Par {
       Par.map2(Par.fork(lazy_sum(l)), Par.fork(lazy_sum(r)))(_ + _)
     }
   }
+
+  def map[A, B](pA: Par[A])(f: A => B): Par[B] = 
+    map2(pA, Par.unit(()))((a, _) => f(a))
 }

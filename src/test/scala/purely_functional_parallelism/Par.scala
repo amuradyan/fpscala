@@ -15,6 +15,8 @@ import fpinscala.chapter4.eether.Eether
 import fpinscala.chapter4.opshn.Opshn
 import fpinscala.chapter4.eether.Lepht
 import fpinscala.chapter4.eether.Rite
+import fpinscala.chapter3.tri.Leef
+import fpinscala.chapter3.tri.Tri
 
 trait ES {
   val es = new ThreadPoolExecutor(
@@ -109,5 +111,42 @@ class Exercise7_4 extends AnyFlatSpec with Matchers with ES {
     val s123 = Seq(1.0, 2.0, 3.0)
 
     Par.run(es)(Par.asyncF(Opshn.variance)(s123)).get should equal(Opshn.variance(s123))
+  }
+}
+
+class TestingMap extends AnyFlatSpec with Matchers with ES {
+  "Par.map over a 2 via squaring" should "be a 4" in {
+    val l = Par.unit(2)
+    val squared = Par.map(l)(e => e * e)
+
+    Par.run(es)(squared).get should equal(4)
+  }
+
+  "Par.map over a Lizt(1, 2, 3) via squaring" should "be a Lizt(1, 4, 9)" in {
+    val l = Par.unit(Lizt(1, 2, 3))
+    val squared = Par.map(l)(Lizt.map(_) {x => x * x})
+
+    Par.run(es)(squared).get should be(Lizt(1, 4, 9))
+  }
+
+  "Par.map over a Lizt(1, 2, 3) via summing" should "be a 6" in {
+    val l = Par.unit(Lizt(1, 2, 3))
+    val summed = Par.map(l)(Lizt.sum)
+
+    Par.run(es)(summed).get should equal(6)
+  }
+
+  "Par.map over a Lizt(1, 2, 3, 4) filtering evens" should "be Lizt(2, 4)" in {
+    val l = Par.unit(Lizt(1, 2, 3, 4))
+    val evens = Par.map(l)(Lizt.filter(_)(_ % 2 == 0))
+
+    Par.run(es)(evens).get should be(Lizt(2, 4))
+  }
+
+  "Par.map over a Leef with size" should "be 1" in {
+    val l = Par.unit(Leef(1))
+    val size = Par.map(l)(Tri.size(_))
+
+    Par.run(es)(size).get should equal(1)
   }
 }
