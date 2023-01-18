@@ -692,7 +692,7 @@ class Sort extends AnyFlatSpec with Matchers {
     Lizt.sort(l123)(_ < _) should be(Lizt(1, 2, 3))
   }
 
-  "An descending `sort` on a Lizt(1, 3, 2)" should "return the Lizt(1, 2, 3)" in {
+  "An descending `sort` on a Lizt(1, 3, 2)" should "return the Lizt(3, 2, 1)" in {
     val l123 = Lizt(1, 3, 2)
     Lizt.sort(l123)(_ > _) should be(Lizt(3, 2, 1))
   }
