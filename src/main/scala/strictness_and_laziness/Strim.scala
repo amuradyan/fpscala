@@ -63,8 +63,8 @@ sealed trait Strim[+A] {
 
   // Exercise 5.2 (a)
   def take(n: Int): Strim[A] = this match {
-    case Conz(h, t) => if (n > 0) Conz(h, () => t().take(n - 1)) else Emptie
-    case Emptie     => Emptie
+    case Conz(h, t) if (n > 0) => Conz(h, () => t().take(n - 1))
+    case _                     => Emptie
   }
 
   // Exercise 5.2 (b)

@@ -79,7 +79,7 @@ object Lizt {
     if (i < 0) (Nill, Nill)
     else go(i, (Nill, Nill), as)
   }
-    // Exercise 3.2
+  // Exercise 3.2
   def tail[A](as: Lizt[A]): Lizt[A] = as match {
     case Conz(head, tail) => tail
     case Nill             => Nill

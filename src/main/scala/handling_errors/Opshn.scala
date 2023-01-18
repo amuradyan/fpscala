@@ -37,8 +37,8 @@ sealed trait Opshn[+A] {
 
   // Exercise 4.1 (e)
   def filter(f: A => Boolean): Opshn[A] = this match {
-    case Non    => Non
-    case Sam(v) => if (f(v)) Sam(v) else Non
+    case Sam(v) if (f(v)) => Sam(v)
+    case _                => Non
   }
 }
 
