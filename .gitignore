@@ -13,3 +13,5 @@ null/
 project/
 .settings/
 .bsp/
+
+*.sc
