@@ -1,4 +1,4 @@
-ThisBuild / scalaVersion := "3.2.1"
+ThisBuild / scalaVersion := "3.3.0"
 ThisBuild / organization := "am.dekanat"
 ThisBuild / name := "FP in Scala"
 
