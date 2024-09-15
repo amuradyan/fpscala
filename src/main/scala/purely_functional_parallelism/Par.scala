@@ -30,7 +30,10 @@ object Par:
   def asyncF[A, B](f: A => B): A => Par[B] =
     a => lazyUnit(f(a))
 
-  extension [A](pa: Par[A]) def run(es: ExecutorService): Future[A] = pa(es)
+  extension [A](pa: Par[A])
+    def run(es: ExecutorService): Future[A] =
+      pa(es)
+
   extension [A](pa: Par[A])
     def map2[B, C](pb: Par[B])(f: (A, B) => C): Par[C] =
       (es: ExecutorService) =>
@@ -43,6 +46,10 @@ object Par:
       val futureA = pa(es)
       val futureB = pb(es)
       UnitFuture(f(futureA.get, futureB.get))
+
+  extension [A](pa: Par[A])
+    def map[B](f: A => B) =
+      pa.map2(unit(()))((a, _) => f(a))
 
   extension [A](pa: Par[A])
     def map2WithTimeout[B, C](pb: Par[B])(f: (A, B) => C): Par[C] =
@@ -76,3 +83,6 @@ object Par:
     else
       val (l, r) = Lizt.splitAt(ints, elements / 2)
       mapErku(fork(sum(l)), fork(sum(r)))(_ + _)
+
+  def sortPar(lizt: Par[Lizt[Int]]): Par[Lizt[Int]] =
+    lizt.map(Lizt.sort(_)(_ < _))

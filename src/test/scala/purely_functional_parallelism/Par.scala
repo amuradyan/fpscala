@@ -12,13 +12,23 @@ class ParTests extends AnyFreeSpec with Matchers {
   private val es = Executors.newFixedThreadPool(5)
 
   "Par should" - {
-    "provide a convenient interface for summing integers" in {
-      Par.sum(Lizt(1, 2, 3, 4)).run(es).get() shouldBe 10
+    "provide a convenient interface for" - {
+      "summing integers" in {
+        Par.sum(Lizt(1, 2, 3, 4)).run(es).get() shouldBe 10
+      }
+
+      "sorting lizts" in {
+        Par.sortPar(Par.unit(Lizt(3, 4, 1, 2))).run(es).get shouldBe Lizt(1, 2, 3, 4)
+      }
     }
 
     "be able to" - {
       "promote a constant value to a parallel computation" in {
         Par.unit(1).run(es).get should be(1)
+      }
+
+      "map a given function over Par" in {
+        Par.unit(3).map(_ + 48).run(es).get shouldBe 51
       }
 
       "combine the results of two parallel computations" in {
