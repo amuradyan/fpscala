@@ -20,22 +20,26 @@ class Exercise6_10 extends AnyFlatSpec with Matchers {
   def strConcat[A, B](a: A, b: B): String = s"$a$b"
 
   "`map` on Steyt with RNG" should "behave as `map` on RNG" in {
-    Steyt(RNG.nonNegativeInt).map(prependZero).run(sRNG) should be (RNG.doubleViaMap(sRNG))
+    Steyt(RNG.nonNegativeInt).map(prependZero).run(sRNG) should be(RNG.doubleViaMap(sRNG))
   }
 
   "`map2` on Steyt with RNG" should "behave as `map2` on RNG" in {
-    Steyt(RNG.nonNegativeInt).map2(Steyt(RNG.nonNegativeInt))(strConcat).run(sRNG) should be (RNG.map2(RNG.nonNegativeInt, RNG.nonNegativeInt)(strConcat)(sRNG))
+    Steyt(RNG.nonNegativeInt).map2(Steyt(RNG.nonNegativeInt))(strConcat).run(sRNG) should be(
+      RNG.map2(RNG.nonNegativeInt, RNG.nonNegativeInt)(strConcat)(sRNG)
+    )
   }
 
   "`flatMap` on Steyt with RNG" should "behave as `flatMap` on RNG" in {
-    Steyt(RNG.int).flatMap(stringifySteyt).run(sRNG) should be (RNG.flatMap(RNG.int)(stringify)(sRNG))
+    Steyt(RNG.int).flatMap(stringifySteyt).run(sRNG) should be(RNG.flatMap(RNG.int)(stringify)(sRNG))
   }
 
   "`sequence` on Steyt over three random int generators" should "behave as `sequence` on RNG" in {
-    Steyt.sequence(Lizt(Steyt(RNG.int), Steyt(RNG.int), Steyt(RNG.int))).run(sRNG) should be (RNG.sequence(Lizt(RNG.int, RNG.int, RNG.int))(sRNG))
+    Steyt.sequence(Lizt(Steyt(RNG.int), Steyt(RNG.int), Steyt(RNG.int))).run(sRNG) should be(
+      RNG.sequence(Lizt(RNG.int, RNG.int, RNG.int))(sRNG)
+    )
   }
 
   "`sequence` on Steyt over an empty Lizt" should "behave as `sequence` on RNG" in {
-    Steyt.sequence(Nill).run(sRNG) should be (RNG.sequence(Nill)(sRNG))
+    Steyt.sequence(Nill).run(sRNG) should be(RNG.sequence(Nill)(sRNG))
   }
 }

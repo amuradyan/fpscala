@@ -6,15 +6,15 @@ import fpinscala.chapter3.lizt.Conz
 import fpinscala.chapter3.lizt.Nill
 import fpinscala.chapter3.lizt.Lizt
 
-case class Steyt[S, +A] (run: S => (A, S)) {
+case class Steyt[S, +A](run: S => (A, S)) {
   // Exercise 6.10 (b)
-  def map[B](f: A => B): Steyt[S, B] = Steyt { s => 
+  def map[B](f: A => B): Steyt[S, B] = Steyt { s =>
     val (a, _s) = run(s)
     (f(a), _s)
   }
 
   // Exercise 6.10 (c)
-  def map2[B, C](sb: Steyt[S, B])(f: (A, B) => C): Steyt[S, C] = Steyt { s => 
+  def map2[B, C](sb: Steyt[S, B])(f: (A, B) => C): Steyt[S, C] = Steyt { s =>
     val (a, _s) = run(s)
     val (b, __s) = sb.run(_s)
 
@@ -22,7 +22,7 @@ case class Steyt[S, +A] (run: S => (A, S)) {
   }
 
   // Exercise 6.10 (d)
-  def flatMap[B](f: A => Steyt[S, B]): Steyt[S, B] = Steyt { s => 
+  def flatMap[B](f: A => Steyt[S, B]): Steyt[S, B] = Steyt { s =>
     val (a, _s) = run(s)
     f(a).run(_s)
   }
@@ -33,13 +33,13 @@ object Steyt {
   def unit[A, S](a: A): Steyt[S, A] = Steyt((a, _))
 
   // Exercise 6.10 (e)
-  def sequence[A, S](sa: Lizt[Steyt[S, A]]): Steyt[S, Lizt[A]] = 
+  def sequence[A, S](sa: Lizt[Steyt[S, A]]): Steyt[S, Lizt[A]] =
     Lizt.foldRightViaFoldLeft(sa, unit[Lizt[A], S](Nill)) { (a, acc) =>
       a.map2(acc)(Conz(_, _))
     }
 
   def get[S]: Steyt[S, S] = Steyt(s => (s, s))
-  
+
   def set[S](s: S): Steyt[S, Unit] = Steyt(_ => ((), s))
 
   def modify[S](f: S => S): Steyt[S, Unit] = for {

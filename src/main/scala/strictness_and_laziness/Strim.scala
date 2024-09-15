@@ -150,8 +150,8 @@ sealed trait Strim[+A] {
     case (_, Emptie) => false
     case (Emptie, _) => false
     case _ =>
-      zipAll(as) takeWhile { !_._2.isEmpty } forAll {
-        case (h, h2) => h == h2
+      zipAll(as) takeWhile { !_._2.isEmpty } forAll { case (h, h2) =>
+        h == h2
       }
   }
 
@@ -218,8 +218,8 @@ object Strim {
   }
 
   // Exercise 5.12 (a)
-  def fibsViaUnfold: Strim[Int] = unfold((0, 1)) {
-    case (a, b) => Sam(a, (b, a + b))
+  def fibsViaUnfold: Strim[Int] = unfold((0, 1)) { case (a, b) =>
+    Sam(a, (b, a + b))
   }
 
   // Exercise 5.12 (b)
