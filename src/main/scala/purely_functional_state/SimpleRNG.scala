@@ -13,7 +13,7 @@ trait RNG {
 case class SimpleRNG(seed: Long) extends RNG {
   // Linear congruental generator
   def nextInt: (Int, RNG) = {
-    val newSeed = (seed * 0x5DEECE66DL + 0xBL) & 0xFFFFFFFFFFFFL
+    val newSeed = (seed * 0x5deece66dL + 0xbL) & 0xffffffffffffL
     val nextRNG = SimpleRNG(newSeed)
     val n = (newSeed >>> 16).toInt
     (n, nextRNG)
@@ -126,7 +126,7 @@ object RNG {
   def sequence[A](fs: Lizt[Rand[A]]): Rand[Lizt[A]] =
     Lizt.foldRightViaFoldLeft(fs, unit(Lizt[A]()))((f, acc) => map2(f, acc)(Conz(_, _)))
 
-  //Exercise 6.8
+  // Exercise 6.8
   def flatMap[A, B](ra: Rand[A])(g: A => Rand[B]): Rand[B] = rng => {
     val (a, _r) = ra(rng)
     g(a)(_r)
