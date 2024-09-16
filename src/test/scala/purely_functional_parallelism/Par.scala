@@ -20,6 +20,10 @@ class ParTests extends AnyFreeSpec with Matchers {
       "sorting lizts" in {
         Par.sortPar(Par.unit(Lizt(3, 4, 1, 2))).run(es).get shouldBe Lizt(1, 2, 3, 4)
       }
+
+      "mapping into parallel computations" in {
+        Par.parMap(Lizt(1, 2, 3, 4))(_ * 10).run(es).get() shouldBe Lizt(10, 20, 30, 40)
+      }
     }
 
     "be able to" - {
@@ -36,19 +40,25 @@ class ParTests extends AnyFreeSpec with Matchers {
       }
 
       "mark a computation for concurrent evaluation" in {
-        pending
+        pending // fork
       }
 
       "lazily mark a computation for concurrent evaluation" in {
-        pending
+        pending // lazyUnit
       }
 
       "actually perform a computation and provide its' value" in {
-        pending
+        pending // run
       }
 
       "wrap any function into a lazy blanket" in {
-        pending
+        pending // asyncF
+      }
+
+      "turn a list of pars into a par of a list" in {
+        val listOfPars = Lizt(Par.unit(1), Par.unit(2), Par.unit(3))
+
+        Par.sequence(listOfPars).run(es).get shouldBe Lizt(1, 2, 3)
       }
     }
   }

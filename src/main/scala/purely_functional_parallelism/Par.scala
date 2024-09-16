@@ -7,6 +7,8 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.Callable
 import java.util.concurrent.Future
 import fpinscala.chapter3.lizt.Lizt
+import fpinscala.chapter3.lizt.Nill
+import fpinscala.chapter3.lizt.Conz
 
 object Par:
   opaque type Par[A] = ExecutorService => Future[A]
@@ -86,3 +88,16 @@ object Par:
 
   def sortPar(lizt: Par[Lizt[Int]]): Par[Lizt[Int]] =
     lizt.map(Lizt.sort(_)(_ < _))
+
+  def parMap[A, B](ps: Lizt[A])(f: A => B): Par[Lizt[B]] =
+    sequence(Lizt.map(ps)(asyncF(f)))
+
+  def sequence[A](listOfPars: Lizt[Par[A]]): Par[Lizt[A]] =
+    val zero = unit(Lizt[A]())
+    Lizt
+      .foldLeft(listOfPars, zero) { (accumulator, computation) =>
+        accumulator
+          .map2(computation) { (previous, current) =>
+            Lizt.append(previous, Lizt(current))
+          }
+      }
