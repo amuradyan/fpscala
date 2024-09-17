@@ -9,6 +9,7 @@ import java.util.concurrent.Future
 import fpinscala.chapter3.lizt.Lizt
 import fpinscala.chapter3.lizt.Nill
 import fpinscala.chapter3.lizt.Conz
+import fpinscala.chapter3.lizt.Lizt.filter
 
 object Par:
   opaque type Par[A] = ExecutorService => Future[A]
@@ -92,12 +93,24 @@ object Par:
   def parMap[A, B](ps: Lizt[A])(f: A => B): Par[Lizt[B]] =
     sequence(Lizt.map(ps)(asyncF(f)))
 
-  def sequence[A](listOfPars: Lizt[Par[A]]): Par[Lizt[A]] =
+  def sequence[A](liztOfPars: Lizt[Par[A]]): Par[Lizt[A]] =
     val zero = unit(Lizt[A]())
     Lizt
-      .foldLeft(listOfPars, zero) { (accumulator, computation) =>
+      .foldLeft(liztOfPars, zero) { (accumulator, computation) =>
         accumulator
           .map2(computation) { (previous, current) =>
             Lizt.append(previous, Lizt(current))
+          }
+      }
+
+  def parFilter[A](as: Lizt[A])(f: A => Boolean): Par[Lizt[A]] =
+    val zero = unit(Lizt[A]())
+
+    Lizt
+      .foldLeft(Lizt.map(as)(lazyUnit), zero) { (accumulator, computation) =>
+        accumulator
+          .map2(computation) { (previous, current) =>
+            if f(current) then Lizt.append(previous, Lizt(current))
+            else previous
           }
       }

@@ -21,6 +21,10 @@ class ParTests extends AnyFreeSpec with Matchers {
         Par.sortPar(Par.unit(Lizt(3, 4, 1, 2))).run(es).get shouldBe Lizt(1, 2, 3, 4)
       }
 
+      "parallel filtering of lizts" in {
+        Par.parFilter(Lizt(1, 2, 3, 4))(_ < 3).run(es).get() shouldBe Lizt(1, 2)
+      }
+
       "mapping into parallel computations" in {
         Par.parMap(Lizt(1, 2, 3, 4))(_ * 10).run(es).get() shouldBe Lizt(10, 20, 30, 40)
       }
