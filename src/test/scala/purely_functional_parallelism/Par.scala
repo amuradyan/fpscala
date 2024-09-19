@@ -21,6 +21,7 @@ class ParTests extends AnyFreeSpec with Matchers {
         Par.sortPar(Par.unit(Lizt(3, 4, 1, 2))).run(es).get shouldBe Lizt(1, 2, 3, 4)
       }
 
+      // Exercise 7.6
       "parallel filtering of lizts" in {
         Par.parFilter(Lizt(1, 2, 3, 4))(_ < 3).run(es).get() shouldBe Lizt(1, 2)
       }
@@ -52,13 +53,15 @@ class ParTests extends AnyFreeSpec with Matchers {
       }
 
       "actually perform a computation and provide its' value" in {
-        pending // run
+        Par.unit(1).run(es).get shouldBe 1
       }
 
+      // Exercise 7.4
       "wrap any function into a lazy blanket" in {
-        pending // asyncF
+        Par.asyncF[Int, Int](_ + 1)(5).run(es).get shouldBe 6
       }
 
+      // Exercise 7.5
       "turn a list of pars into a par of a list" in {
         val listOfPars = Lizt(Par.unit(1), Par.unit(2), Par.unit(3))
 
