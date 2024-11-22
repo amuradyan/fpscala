@@ -11,7 +11,7 @@ import fpinscala.chapter3.lizt.Lizt
 class ParTests extends AnyFreeSpec with Matchers {
   private val es = Executors.newFixedThreadPool(5)
 
-  "Par should" - {
+  "Par" - {
     "provide a convenient interface for" - {
       "summing integers" in {
         Par.sum(Lizt(1, 2, 3, 4)).run(es).get() shouldBe 10
